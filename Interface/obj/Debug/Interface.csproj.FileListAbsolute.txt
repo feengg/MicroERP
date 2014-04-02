@@ -1,0 +1,44 @@
+C:\Users\tplac_000\Documents\Visual Studio 2012\Projects\SWE1\WebServer\WebServer\bin\Debug\plugins\Interface.dll
+C:\Users\tplac_000\Documents\Visual Studio 2012\Projects\SWE1\WebServer\WebServer\bin\Debug\plugins\Interface.pdb
+C:\Users\tplac_000\Documents\Visual Studio 2012\Projects\SWE1\WebServer\Interface\bin\Debug\Interface.dll
+C:\Users\tplac_000\Documents\Visual Studio 2012\Projects\SWE1\WebServer\Interface\bin\Debug\Interface.pdb
+C:\Users\tplac_000\Documents\Visual Studio 2012\Projects\SWE1\WebServer\Interface\bin\Debug\WebLibrary.dll
+C:\Users\tplac_000\Documents\Visual Studio 2012\Projects\SWE1\WebServer\Interface\bin\Debug\WebLibrary.pdb
+C:\Users\tplac_000\Documents\Visual Studio 2012\Projects\SWE1\WebServer\Interface\obj\Debug\Interface.csprojResolveAssemblyReference.cache
+C:\Users\tplac_000\Documents\Visual Studio 2012\Projects\SWE1\WebServer\Interface\obj\Debug\Interface.dll
+C:\Users\tplac_000\Documents\Visual Studio 2012\Projects\SWE1\WebServer\Interface\obj\Debug\Interface.pdb
+C:\Users\tplac_000\Documents\Visual Studio 2012\Projects\WebServer\Interface\bin\Debug\Interface.dll
+C:\Users\tplac_000\Documents\Visual Studio 2012\Projects\WebServer\Interface\bin\Debug\Interface.pdb
+C:\Users\tplac_000\Documents\Visual Studio 2012\Projects\WebServer\Interface\bin\Debug\WebLibrary.dll
+C:\Users\tplac_000\Documents\Visual Studio 2012\Projects\WebServer\Interface\bin\Debug\WebLibrary.pdb
+C:\Users\tplac_000\Documents\Visual Studio 2012\Projects\WebServer\Interface\obj\Debug\Interface.csprojResolveAssemblyReference.cache
+C:\Users\tplac_000\Documents\Visual Studio 2012\Projects\WebServer\Interface\obj\Debug\Interface.dll
+C:\Users\tplac_000\Documents\Visual Studio 2012\Projects\WebServer\Interface\obj\Debug\Interface.pdb
+C:\git\SWE1\WebServer\Interface\bin\Debug\Interface.dll
+C:\git\SWE1\WebServer\Interface\bin\Debug\Interface.pdb
+C:\git\SWE1\WebServer\Interface\bin\Debug\WebLibrary.dll
+C:\git\SWE1\WebServer\Interface\bin\Debug\WebLibrary.pdb
+C:\git\SWE1\WebServer\Interface\obj\Debug\Interface.csprojResolveAssemblyReference.cache
+C:\git\SWE1\WebServer\Interface\obj\Debug\Interface.dll
+C:\git\SWE1\WebServer\Interface\obj\Debug\Interface.pdb
+C:\Users\Teresa\Documents\Visual Studio 2012\Projects\SWE1\WebServer\Interface\bin\Debug\Interface.dll
+C:\Users\Teresa\Documents\Visual Studio 2012\Projects\SWE1\WebServer\Interface\bin\Debug\Interface.pdb
+C:\Users\Teresa\Documents\Visual Studio 2012\Projects\SWE1\WebServer\Interface\bin\Debug\WebLibrary.dll
+C:\Users\Teresa\Documents\Visual Studio 2012\Projects\SWE1\WebServer\Interface\bin\Debug\WebLibrary.pdb
+C:\Users\Teresa\Documents\Visual Studio 2012\Projects\SWE1\WebServer\Interface\obj\Debug\Interface.csprojResolveAssemblyReference.cache
+C:\Users\Teresa\Documents\Visual Studio 2012\Projects\SWE1\WebServer\Interface\obj\Debug\Interface.dll
+C:\Users\Teresa\Documents\Visual Studio 2012\Projects\SWE1\WebServer\Interface\obj\Debug\Interface.pdb
+C:\Users\Teresa\Documents\Visual Studio 2013\Projects\WebServer\Interface\bin\Debug\Interface.dll
+C:\Users\Teresa\Documents\Visual Studio 2013\Projects\WebServer\Interface\bin\Debug\Interface.pdb
+C:\Users\Teresa\Documents\Visual Studio 2013\Projects\WebServer\Interface\bin\Debug\WebLibrary.dll
+C:\Users\Teresa\Documents\Visual Studio 2013\Projects\WebServer\Interface\bin\Debug\WebLibrary.pdb
+C:\Users\Teresa\Documents\Visual Studio 2013\Projects\WebServer\Interface\obj\Debug\Interface.csprojResolveAssemblyReference.cache
+C:\Users\Teresa\Documents\Visual Studio 2013\Projects\WebServer\Interface\obj\Debug\Interface.dll
+C:\Users\Teresa\Documents\Visual Studio 2013\Projects\WebServer\Interface\obj\Debug\Interface.pdb
+D:\FH\4.Semester\Software Engineering\WebServer\Interface\bin\Debug\Interface.dll
+D:\FH\4.Semester\Software Engineering\WebServer\Interface\bin\Debug\Interface.pdb
+D:\FH\4.Semester\Software Engineering\WebServer\Interface\bin\Debug\WebLibrary.dll
+D:\FH\4.Semester\Software Engineering\WebServer\Interface\bin\Debug\WebLibrary.pdb
+D:\FH\4.Semester\Software Engineering\WebServer\Interface\obj\Debug\Interface.csprojResolveAssemblyReference.cache
+D:\FH\4.Semester\Software Engineering\WebServer\Interface\obj\Debug\Interface.dll
+D:\FH\4.Semester\Software Engineering\WebServer\Interface\obj\Debug\Interface.pdb
