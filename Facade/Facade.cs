@@ -65,15 +65,13 @@ namespace Interface
                         sw.Flush();
                     
                     }
-
-                    //resp.Send(result.ToXmlString(), "text/xml");
-
                 }
             }
         }
 
         public static string ToXmlString(object obj)
-        { //if (obj == null) { throw new ArgumentNullException("obj"); } 
+        { 
+            if (obj == null) { throw new ArgumentNullException("obj"); } 
 
             XmlSerializer xml = new XmlSerializer(obj.GetType());
             StringBuilder sb = new StringBuilder();
