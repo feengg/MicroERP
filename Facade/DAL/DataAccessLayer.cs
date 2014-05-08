@@ -225,30 +225,13 @@ namespace Interface
                     cmdUpdate2.Parameters.AddWithValue("@billingadress", billingadress);
                     cmdUpdate2.Parameters.AddWithValue("@deliveryadress", deliveryadress);
 
-                    //using (SqlDataReader rd = cmdSelect.ExecuteReader())
-                    //{
-                    //    // Daten holen
-                    //    while (rd.Read())
-                    //    {
-                    //        Console.WriteLine("Kunde u;
- 
-                    //        //list db null
-                    //    }
-                    //    // DataReader schließen 
-                    //    rd.Close();
-                    //}
-
-                    // Verbindung schließen 
                     db.Close();
-
-                    //return list;
-
                 }
 
             }
             catch (Exception)
             {
-                throw new Exception("Connection to Database failed");
+                throw new Exception("Updating Contact failed.");
             }
         }
         #endregion

@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using System.IO;
 
+
 namespace Interface
 {
     public class Facade : IPlugin
@@ -65,7 +66,7 @@ namespace Interface
                     foreach (Contact con in result)
                     {
                         //Console.WriteLine("{0} {1}", con.ID, con.Vorname);
-                        XElement contacts = new XElement("Contacts", new XElement("Contact", new XElement("ID", con.ID), new XElement("Titel", con.Titel), new XElement("Firstname", con.Vorname), new XElement("Lastname", con.Nachname), new XElement("Suffix", con.Suffix), new XElement("Birthday", con.Geburtsdatum), new XElement("Address", new XElement("Adress", con.Adresse), new XElement("Deliveryaddress", con.Lieferadresse), new XElement("Billingaddress", con.Rechnungsadresse))));
+                        XElement contacts = new XElement("Contacts", new XElement("Contact", new XElement("ID", con.ID), new XElement("Titel", con.Titel), new XElement("Firstname", con.Vorname), new XElement("Lastname", con.Nachname), new XElement("Suffix", con.Suffix), new XElement("Birthday", con.Geburtsdatum), new XElement("Adress", con.Adresse), new XElement("Deliveryaddress", con.Lieferadresse), new XElement("Billingaddress", con.Rechnungsadresse)));
                         string msg = ToXmlString(contacts);
                         sw.WriteLine("HTTP/1.1 200 OK");
                         sw.WriteLine("connection: close");
@@ -85,7 +86,6 @@ namespace Interface
                     string ids;
                     splitUrl.TryGetValue("id", out ids);
                     int.TryParse(ids, out id);
-
                     
                     splitUrl.TryGetValue("title", out title);
                     splitUrl.TryGetValue("firstname", out firstname);
@@ -138,7 +138,7 @@ namespace Interface
                     foreach (Contact con in result)
                     {
                         //Console.WriteLine("{0} {1}", con.ID, con.Vorname);
-                        XElement contacts = new XElement("Contacts", new XElement("Contact", new XElement("ID", con.ID), new XElement("Titel", con.Titel), new XElement("Firstname", con.Vorname), new XElement("Lastname", con.Nachname), new XElement("Suffix", con.Suffix), new XElement("Birthday", con.Geburtsdatum), new XElement("Address", new XElement("Adresse", con.Adresse), new XElement("deliveryaddress", con.Lieferadresse), new XElement("billingaddress", con.Rechnungsadresse))));
+                        XElement contacts = new XElement("Contacts", new XElement("Contact", new XElement("ID", con.ID), new XElement("Titel", con.Titel), new XElement("Firstname", con.Vorname), new XElement("Lastname", con.Nachname), new XElement("Suffix", con.Suffix), new XElement("Birthday", con.Geburtsdatum), new XElement("Adresse", con.Adresse), new XElement("deliveryaddress", con.Lieferadresse), new XElement("billingaddress", con.Rechnungsadresse)));
                         string msg = ToXmlString(contacts);
                         sw.WriteLine("HTTP/1.1 200 OK");
                         sw.WriteLine("connection: close");
