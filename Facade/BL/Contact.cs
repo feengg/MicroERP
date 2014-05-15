@@ -17,6 +17,8 @@ namespace Interface
         public String Lieferadresse { get; set; }
         public String Rechnungsadresse { get; set; }
        // public int ID_Person { get; set; }
+        public String Name { get; set; }
+        public String UID { get; set; }
     }
 
 

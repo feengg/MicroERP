@@ -34,5 +34,19 @@ namespace Interface
         }
         #endregion
 
+        #region NewContacts
+        public void NewContacts(Contact list)
+        {
+            dal.NewContacts(list);
+        }
+        #endregion
+
+        #region NewFirm 
+        public void NewFirm(Contact list)
+        {
+            dal.NewFirm(list);
+        }
+        #region
+
     }
 }

@@ -196,7 +196,7 @@ namespace Interface
             string firstname = list.Vorname;
             string lastname = list.Nachname;
             string suffix = list.Suffix;
-            DateTime birthday = list.Geburtsdatum;
+           // DateTime birthday = list.Geburtsdatum;
             string adress = list.Adresse;
             string billingadress = list.Rechnungsadresse;
             string deliveryadress = list.Lieferadresse;
@@ -209,21 +209,22 @@ namespace Interface
                 {
                     db.Open();
                     //SQL Statement zum auslesen
-                    string query = "UPDATE Person SET Titel = @title, Vonrname = @firstname, Nachname = @lastname, Suffix = @suffix, Geburtsdatum = @birthday WHERE ID_Person = @id";
-                    string query2 = "UPDATE Kontakte SET Adresse = @adress, Rechnungsadresse = @billingadress, Lieferadresse = @deliveryadress WHERE ID_Kontakte = (SELECT FK_Kontakte FROM Person WHERE ID_Person = @id";
+                    //string query = "UPDATE Person SET Titel = @title, Vorname = @firstname, Nachname = @lastname, Suffix = @suffix, Geburtsdatum = @birthday WHERE ID_Person = @id";
+                    string query = "UPDATE Person SET Titel = @title, Vorname = @firstname, Nachname = @lastname, Suffix = @suffix WHERE ID_Person = @id";
+                    //string query2 = "UPDATE Kontakte SET Adresse = @adress, Rechnungsadresse = @billingadress, Lieferadresse = @deliveryadress WHERE ID_Kontakte = (SELECT FK_Kontakte FROM Person WHERE ID_Person = @id)";
 
 
                     SqlCommand cmdUpdate1 = new SqlCommand(query, db);
-                    SqlCommand cmdUpdate2 = new SqlCommand(query2, db);
+                    //SqlCommand cmdUpdate2 = new SqlCommand(query2, db);
                     cmdUpdate1.Parameters.AddWithValue("@id", id);
                     cmdUpdate1.Parameters.AddWithValue("@title", title);
                     cmdUpdate1.Parameters.AddWithValue("@firstname", firstname);
                     cmdUpdate1.Parameters.AddWithValue("@lastname", lastname);
                     cmdUpdate1.Parameters.AddWithValue("@suffix", suffix);
-                    cmdUpdate1.Parameters.AddWithValue("@birthday", birthday);
-                    cmdUpdate2.Parameters.AddWithValue("@adress", adress);
-                    cmdUpdate2.Parameters.AddWithValue("@billingadress", billingadress);
-                    cmdUpdate2.Parameters.AddWithValue("@deliveryadress", deliveryadress);
+                    //cmdUpdate1.Parameters.AddWithValue("@birthday", birthday);
+                    //cmdUpdate2.Parameters.AddWithValue("@adress", adress);
+                    //cmdUpdate2.Parameters.AddWithValue("@billingadress", billingadress);
+                    //cmdUpdate2.Parameters.AddWithValue("@deliveryadress", deliveryadress);
 
                     db.Close();
                 }
@@ -232,6 +233,90 @@ namespace Interface
             catch (Exception)
             {
                 throw new Exception("Updating Contact failed.");
+            }
+        }
+        #endregion
+
+        #region NewContacts
+        public void NewContacts(Contact list)
+        {
+            
+            string title = list.Titel;
+            string firstname = list.Vorname;
+            string lastname = list.Nachname;
+            string suffix = list.Suffix;
+            DateTime birthday = list.Geburtsdatum;
+            string adress = list.Adresse;
+            string billingadress = list.Rechnungsadresse;
+            string deliveryadress = list.Lieferadresse;
+
+            try
+            {
+                //List<Contact> list = new List<Contact>();
+                using (SqlConnection db = new SqlConnection(strCon))
+                {
+                    db.Open();
+                    //SQL Statement zum auslesen
+                     string query = "INSERT INTO Person VALUES (@title, @firstname, @lastname, @suffix, @birthday)";
+                    //string query2 = "INSERT INTO ";
+
+
+                    SqlCommand cmdInsert1 = new SqlCommand(query, db);
+                    //SqlCommand cmdUpdate2 = new SqlCommand(query2, db);
+                    cmdInsert1.Parameters.AddWithValue("@title", title);
+                    cmdInsert1.Parameters.AddWithValue("@firstname", firstname);
+                    cmdInsert1.Parameters.AddWithValue("@lastname", lastname);
+                    cmdInsert1.Parameters.AddWithValue("@suffix", suffix);
+                    cmdInsert1.Parameters.AddWithValue("@birthday", birthday);
+                    //cmdUpdate2.Parameters.AddWithValue("@adress", adress);
+                    //cmdUpdate2.Parameters.AddWithValue("@billingadress", billingadress);
+                    //cmdUpdate2.Parameters.AddWithValue("@deliveryadress", deliveryadress);
+
+                    db.Close();
+                }
+
+            }
+            catch (Exception)
+            {
+                throw new Exception("Inserting Contact failed.");
+            }
+        }
+        #endregion
+
+        #region NewFirm
+        public void NewFirm(Contact list)
+        {
+
+            string firmname = list.Name;
+            string UID = list.UID;
+            string adress = list.Adresse;
+            string billingadress = list.Rechnungsadresse;
+            string deliveryadress = list.Lieferadresse;
+
+            try
+            {
+                using (SqlConnection db = new SqlConnection(strCon))
+                {
+                    db.Open();
+                    //SQL Statement zum auslesen
+                    string query = "INSERT INTO Firma VALUES (@firmname, @UID, @lastname, @suffix, @birthday)";
+                    string query2 = "INSERT INTO Kontakte VALUES(@adress, @billingadress, @deliveryadress)";
+
+                    SqlCommand cmdInsert1 = new SqlCommand(query, db);
+                    SqlCommand cmdInsert2 = new SqlCommand(query2, db);
+                    cmdInsert1.Parameters.AddWithValue("@firmname", firmname);
+                    cmdInsert1.Parameters.AddWithValue("@UID", UID);
+                    cmdInsert2.Parameters.AddWithValue("@adress", adress);
+                    cmdInsert2.Parameters.AddWithValue("@billingadress", billingadress);
+                    cmdInsert2.Parameters.AddWithValue("@deliveryadress", deliveryadress);
+
+                    db.Close();
+                }
+
+            }
+            catch (Exception)
+            {
+                throw new Exception("Inserting Firm failed.");
             }
         }
         #endregion
