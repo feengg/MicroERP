@@ -34,10 +34,9 @@ namespace Interface
         string billingadress;
         string deliveryadress;
         public string name;
-        public List<Contact> result1;
+        public List<Contact> result1;  
         public string result2;
 
-        
 
         public void start()
         {
@@ -70,19 +69,24 @@ namespace Interface
    
                     var result = bl.searchContacts(name);
 
+                    List<XElement> ResultXml = new List<XElement>();
+
                     foreach (Contact con in result)
                     {
                         //Console.WriteLine("{0} {1}", con.ID, con.Vorname);
                         XElement contacts = new XElement("Contacts", new XElement("Contact", new XElement("ID", con.ID), new XElement("Titel", con.Titel), new XElement("Firstname", con.Vorname), new XElement("Lastname", con.Nachname), new XElement("Suffix", con.Suffix), new XElement("Birthday", con.Geburtsdatum), new XElement("Adress", con.Adresse), new XElement("Deliveryaddress", con.Lieferadresse), new XElement("Billingaddress", con.Rechnungsadresse)));
-                        string msg = ToXmlString(contacts);
-                        sw.WriteLine("HTTP/1.1 200 OK");
-                        sw.WriteLine("connection: close");
-                        sw.WriteLine("content-type: text/html");
-                        sw.WriteLine();
-                        sw.WriteLine("{0}", msg);
-                        sw.Flush();
-                    
+                        ResultXml.Add(contacts);
                     }
+
+                    string msg = ToXmlString(ResultXml);
+
+                    sw.WriteLine("HTTP/1.1 200 OK");
+                    sw.WriteLine("connection: close");
+                    sw.WriteLine("content-type: text/html; charset=utf-8");
+                    sw.WriteLine();
+                    sw.WriteLine("{0}", msg);
+                    sw.Flush();
+
                 }
                 #endregion
 
@@ -98,11 +102,11 @@ namespace Interface
                     splitUrl.TryGetValue("firstname", out firstname);
                     splitUrl.TryGetValue("lastname", out lastname);
                     splitUrl.TryGetValue("suffix", out suffix);
-                    //string birthday1;
-                    //splitUrl.TryGetValue("birthday", out birthday1);
+                    string birthday1;
+                    splitUrl.TryGetValue("birthday", out birthday1);
 
-                    //DateTime birthday = new DateTime();
-                    //birthday = DateTime.Parse(birthday1, System.Globalization.CultureInfo.InvariantCulture);
+                    DateTime birthday = new DateTime();
+                    birthday = DateTime.Parse(birthday1, System.Globalization.CultureInfo.InvariantCulture);
 
                     splitUrl.TryGetValue("adress", out adress);
                     splitUrl.TryGetValue("billingadress", out billingadress);
@@ -114,7 +118,7 @@ namespace Interface
                     instance.Vorname = firstname;
                     instance.Nachname = lastname;
                     instance.Suffix = suffix;
-                    //instance.Geburtsdatum = birthday;
+                    instance.Geburtsdatum = birthday;
                     instance.Adresse = adress;
                     instance.Rechnungsadresse = billingadress;
                     instance.Lieferadresse = deliveryadress;
@@ -181,7 +185,7 @@ namespace Interface
                 }
                 #endregion
 
-                #region NewContacts
+                #region NewFirm
                 if (splitUrl.ContainsValue("Firma") && splitUrl.ContainsValue("New"))
                 {
 
@@ -214,7 +218,6 @@ namespace Interface
                 }
                 #endregion
 
-
                 #region SearchID
                 if (splitUrl.ContainsValue("Contacts") && splitUrl.ContainsValue("ID"))
                 {
@@ -242,6 +245,7 @@ namespace Interface
                 #endregion
             }
         }
+
 
         public static string ToXmlString(object obj)
         { 

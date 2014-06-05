@@ -25,6 +25,5 @@ C:\Users\Teresa\Documents\Visual Studio 2013\Projects\WebServer\WebLibrary\obj\D
 C:\Users\Teresa\Documents\Visual Studio 2013\Projects\WebServer\WebLibrary\obj\Debug\WebLibrary.pdb
 D:\FH\4.Semester\Software Engineering\WebServer\WebLibrary\bin\Debug\WebLibrary.dll
 D:\FH\4.Semester\Software Engineering\WebServer\WebLibrary\bin\Debug\WebLibrary.pdb
-D:\FH\4.Semester\Software Engineering\WebServer\WebLibrary\obj\Debug\WebLibrary.csprojResolveAssemblyReference.cache
 D:\FH\4.Semester\Software Engineering\WebServer\WebLibrary\obj\Debug\WebLibrary.dll
 D:\FH\4.Semester\Software Engineering\WebServer\WebLibrary\obj\Debug\WebLibrary.pdb

@@ -11,7 +11,7 @@ using System.Data.SqlClient;
 
 namespace Interface
 {
-    class DataAccessLayer
+    class Contact_DAL
     {
         //Datenbankverbindung
         //private string strCon = @"Data Source=(local);" + "Initial Catalog=MicroERP;Integrated Security=true;";
@@ -87,23 +87,19 @@ namespace Interface
 
                             Contact instance = new Contact();
 
-                            //var value = rd["ID_Person"];
-
-                            //if (value != DBNull.Value)
-                            //{
-                            //    instance.ID = Convert.ToInt32(value);  
-                            //}
-
                             instance.ID = rd.GetInt32(0);
                             instance.Titel = rd.GetString(1);
                             instance.Vorname = rd.GetString(2);
                             instance.Nachname = rd.GetString(3);
-                            var value = rd["Suffix"];
-                            if (value != DBNull.Value)
-                            {
+                            //var value = rd["Suffix"];
+                            //if (value != "")
+                            //{
                                 instance.Suffix = rd.GetString(4);
-                            }
-                            //instance.Suffix = rd.GetString(4);
+                            //}
+                            //else
+                            //{
+                            //    Console.WriteLine("null");
+                            //}
                             instance.Geburtsdatum = rd.GetDateTime(5);
                             instance.Adresse = rd.GetString(6);
                             instance.Rechnungsadresse = rd.GetString(7);
@@ -196,7 +192,7 @@ namespace Interface
             string firstname = list.Vorname;
             string lastname = list.Nachname;
             string suffix = list.Suffix;
-           // DateTime birthday = list.Geburtsdatum;
+            DateTime birthday = list.Geburtsdatum;
             string adress = list.Adresse;
             string billingadress = list.Rechnungsadresse;
             string deliveryadress = list.Lieferadresse;
@@ -209,8 +205,8 @@ namespace Interface
                 {
                     db.Open();
                     //SQL Statement zum auslesen
-                    //string query = "UPDATE Person SET Titel = @title, Vorname = @firstname, Nachname = @lastname, Suffix = @suffix, Geburtsdatum = @birthday WHERE ID_Person = @id";
-                    string query = "UPDATE Person SET Titel = @title, Vorname = @firstname, Nachname = @lastname, Suffix = @suffix WHERE ID_Person = @id";
+                    string query = "UPDATE Person SET Titel = @title, Vorname = @firstname, Nachname = @lastname, Suffix = @suffix, Geburtsdatum = @birthday WHERE ID_Person = @id";
+                    //string query = "UPDATE Person SET Titel = @title, Vorname = @firstname, Nachname = @lastname, Suffix = @suffix WHERE ID_Person = @id";
                     //string query2 = "UPDATE Kontakte SET Adresse = @adress, Rechnungsadresse = @billingadress, Lieferadresse = @deliveryadress WHERE ID_Kontakte = (SELECT FK_Kontakte FROM Person WHERE ID_Person = @id)";
 
 
@@ -221,7 +217,7 @@ namespace Interface
                     cmdUpdate1.Parameters.AddWithValue("@firstname", firstname);
                     cmdUpdate1.Parameters.AddWithValue("@lastname", lastname);
                     cmdUpdate1.Parameters.AddWithValue("@suffix", suffix);
-                    //cmdUpdate1.Parameters.AddWithValue("@birthday", birthday);
+                    cmdUpdate1.Parameters.AddWithValue("@birthday", birthday);
                     //cmdUpdate2.Parameters.AddWithValue("@adress", adress);
                     //cmdUpdate2.Parameters.AddWithValue("@billingadress", billingadress);
                     //cmdUpdate2.Parameters.AddWithValue("@deliveryadress", deliveryadress);
