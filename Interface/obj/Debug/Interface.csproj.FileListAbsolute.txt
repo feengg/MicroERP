@@ -42,3 +42,10 @@ D:\FH\4.Semester\Software Engineering\WebServer\Interface\bin\Debug\WebLibrary.p
 D:\FH\4.Semester\Software Engineering\WebServer\Interface\obj\Debug\Interface.csprojResolveAssemblyReference.cache
 D:\FH\4.Semester\Software Engineering\WebServer\Interface\obj\Debug\Interface.dll
 D:\FH\4.Semester\Software Engineering\WebServer\Interface\obj\Debug\Interface.pdb
+D:\FH\4.Semester\Software Engineering\WebServer_ContactXML\Interface\bin\Debug\Interface.dll
+D:\FH\4.Semester\Software Engineering\WebServer_ContactXML\Interface\bin\Debug\Interface.pdb
+D:\FH\4.Semester\Software Engineering\WebServer_ContactXML\Interface\bin\Debug\WebLibrary.dll
+D:\FH\4.Semester\Software Engineering\WebServer_ContactXML\Interface\bin\Debug\WebLibrary.pdb
+D:\FH\4.Semester\Software Engineering\WebServer_ContactXML\Interface\obj\Debug\Interface.csprojResolveAssemblyReference.cache
+D:\FH\4.Semester\Software Engineering\WebServer_ContactXML\Interface\obj\Debug\Interface.dll
+D:\FH\4.Semester\Software Engineering\WebServer_ContactXML\Interface\obj\Debug\Interface.pdb

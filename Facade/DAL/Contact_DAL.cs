@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Interface;
 using WebLibrary;
 using System.Net.Sockets;
 using System.Data.SqlClient;
+using System.Xml.Serialization;
+using System.IO;
 
 
 namespace Interface
@@ -16,64 +17,36 @@ namespace Interface
         //Datenbankverbindung
         //private string strCon = @"Data Source=(local);" + "Initial Catalog=MicroERP;Integrated Security=true;";
         private string strCon = @"Data Source=.\sqlexpress;" + "Initial Catalog=MicroERP;Integrated Security=true;";
+        //private string strCon = global::Facade.Properties.Settings.Default.ConnectionString;
 
-        bool Firma = false;
+        #region Variablen
 
-        #region checkFirma
-        //private void checkFirma(string text)
-        //{
-        //    try
-        //    {
-        //        using (SqlConnection db = new SqlConnection(strCon))
-        //        {
-        //            db.Open();
+        string firmname;
+        string UID;
+        string adress;
+        string billingadress;
+        string deliveryadress;
+        int id;
+        string title;
+        string firstname;
+        string lastname;
+        string suffix;
+        DateTime birthday;
 
-        //            string query = "SELECT Vorname, Nachname FROM Kontakte inner join Person on ID_Kontakte = FK_Kontakte WHERE [Vorname] = @text or [Nachname] = @text";
-
-        //            SqlCommand cmdSelect = new SqlCommand(query, db);
-        //            cmdSelect.Parameters.AddWithValue("@text", text);
-
-        //            using (SqlDataReader rd = cmdSelect.ExecuteReader())
-        //            {
-        //               if (rd["Vorname"] != DBNull.Value)
-        //                {
-        //                    Firma = false;
-        //                }
-
-        //               else
-        //               {
-        //                   Firma = true;
-        //               }
-        //                rd.Close();
-        //            }
-
-        //            // Verbindung schließen 
-        //            db.Close();
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw new Exception("connection to database failed");
-        //    }
-
-        //}
         #endregion
 
         #region searchContact
-        public List<Contact> searchContacts(string text)
+        public ContactsList searchContacts(string text)
         {
-            //checkFirma(text);
 
             try
             {
-                List<Contact> list = new List<Contact>();
+                ContactsList list = new ContactsList();
                 using (SqlConnection db = new SqlConnection(strCon))
                 {
                     db.Open();
-                    //SQL Statement zum auslesen
 
                     string query = "SELECT ID_Person, Titel, Vorname, Nachname, Suffix, Geburtsdatum, Adresse, Rechnungsadresse, Lieferadresse FROM Kontakte inner join Person on ID_Kontakte = FK_Kontakte WHERE [Vorname] = @text or [Nachname] = @text";
-
 
                     SqlCommand cmdSelect = new SqlCommand(query, db);
                     cmdSelect.Parameters.AddWithValue("@text", text);
@@ -84,28 +57,19 @@ namespace Interface
                         while (rd.Read())
                         {
                             Console.WriteLine("ID:{0} & Vorname:{1}", rd["ID_Person"], rd["Vorname"]);
+                            Contact contact = new Contact();
+                            
+                            contact.ID = rd.GetInt32(0);
+                            contact.Titel = rd.GetString(1);
+                            contact.Vorname = rd.GetString(2);
+                            contact.Nachname = rd.GetString(3);
+                            contact.Suffix = rd.GetString(4);
+                            contact.Geburtsdatum = rd.GetDateTime(5);
+                            contact.Adresse = rd.GetString(6);
+                            contact.Rechnungsadresse = rd.GetString(7);
+                            contact.Lieferadresse = rd.GetString(8);
 
-                            Contact instance = new Contact();
-
-                            instance.ID = rd.GetInt32(0);
-                            instance.Titel = rd.GetString(1);
-                            instance.Vorname = rd.GetString(2);
-                            instance.Nachname = rd.GetString(3);
-                            //var value = rd["Suffix"];
-                            //if (value != "")
-                            //{
-                                instance.Suffix = rd.GetString(4);
-                            //}
-                            //else
-                            //{
-                            //    Console.WriteLine("null");
-                            //}
-                            instance.Geburtsdatum = rd.GetDateTime(5);
-                            instance.Adresse = rd.GetString(6);
-                            instance.Rechnungsadresse = rd.GetString(7);
-                            instance.Lieferadresse = rd.GetString(8);
-
-                            list.Add(instance);
+                            list.contact.Add(contact);
                             //list db null
                         }
                         // DataReader schließen 
@@ -128,11 +92,11 @@ namespace Interface
         #endregion
 
         #region SearchID
-        public List<Contact> searchID(int id)
+        public ContactsList searchID(int id)
         {
             try
             {
-                List<Contact> list = new List<Contact>();
+                ContactsList list = new ContactsList();
                 using (SqlConnection db = new SqlConnection(strCon))
                 {
                     db.Open();
@@ -162,7 +126,7 @@ namespace Interface
                             instance.Rechnungsadresse = rd.GetString(7);
                             instance.Lieferadresse = rd.GetString(8);
 
-                            list.Add(instance);
+                            list.contact.Add(instance);
                             //list db null
                         }
                         // DataReader schließen 
@@ -185,42 +149,47 @@ namespace Interface
         #endregion
 
         #region UpdateContacts
-        public void UpdateContacts(Contact list)
+        public void UpdateContacts(ContactsList list)
         {
-            int id = list.ID;
-            string title = list.Titel;
-            string firstname = list.Vorname;
-            string lastname = list.Nachname;
-            string suffix = list.Suffix;
-            DateTime birthday = list.Geburtsdatum;
-            string adress = list.Adresse;
-            string billingadress = list.Rechnungsadresse;
-            string deliveryadress = list.Lieferadresse;
-            
+
+            foreach (var obj in list.contact)
+            {
+                id = obj.ID;
+                title = obj.Titel;
+                firstname = obj.Vorname;
+                lastname = obj.Nachname;
+                suffix = obj.Suffix;
+                birthday = obj.Geburtsdatum;
+                adress = obj.Adresse;
+                billingadress = obj.Rechnungsadresse;
+                deliveryadress = obj.Lieferadresse;
+            }
 
             try
             {
-                //List<Contact> list = new List<Contact>();
                 using (SqlConnection db = new SqlConnection(strCon))
                 {
                     db.Open();
-                    //SQL Statement zum auslesen
+
                     string query = "UPDATE Person SET Titel = @title, Vorname = @firstname, Nachname = @lastname, Suffix = @suffix, Geburtsdatum = @birthday WHERE ID_Person = @id";
                     //string query = "UPDATE Person SET Titel = @title, Vorname = @firstname, Nachname = @lastname, Suffix = @suffix WHERE ID_Person = @id";
-                    //string query2 = "UPDATE Kontakte SET Adresse = @adress, Rechnungsadresse = @billingadress, Lieferadresse = @deliveryadress WHERE ID_Kontakte = (SELECT FK_Kontakte FROM Person WHERE ID_Person = @id)";
+                    string query2 = "UPDATE Kontakte SET Adresse = @adress, Rechnungsadresse = @billingadress, Lieferadresse = @deliveryadress WHERE ID_Kontakte = (SELECT FK_Kontakte FROM Person WHERE ID_Person = @id)";
 
 
                     SqlCommand cmdUpdate1 = new SqlCommand(query, db);
-                    //SqlCommand cmdUpdate2 = new SqlCommand(query2, db);
+                    SqlCommand cmdUpdate2 = new SqlCommand(query2, db);
                     cmdUpdate1.Parameters.AddWithValue("@id", id);
                     cmdUpdate1.Parameters.AddWithValue("@title", title);
                     cmdUpdate1.Parameters.AddWithValue("@firstname", firstname);
                     cmdUpdate1.Parameters.AddWithValue("@lastname", lastname);
                     cmdUpdate1.Parameters.AddWithValue("@suffix", suffix);
                     cmdUpdate1.Parameters.AddWithValue("@birthday", birthday);
-                    //cmdUpdate2.Parameters.AddWithValue("@adress", adress);
-                    //cmdUpdate2.Parameters.AddWithValue("@billingadress", billingadress);
-                    //cmdUpdate2.Parameters.AddWithValue("@deliveryadress", deliveryadress);
+                    cmdUpdate2.Parameters.AddWithValue("@adress", adress);
+                    cmdUpdate2.Parameters.AddWithValue("@billingadress", billingadress);
+                    cmdUpdate2.Parameters.AddWithValue("@deliveryadress", deliveryadress);
+
+                    cmdUpdate1.ExecuteNonQuery();
+                    cmdUpdate2.ExecuteNonQuery();
 
                     db.Close();
                 }
@@ -234,17 +203,21 @@ namespace Interface
         #endregion
 
         #region NewContacts
-        public void NewContacts(Contact list)
+        public void NewContacts(ContactsList list)
         {
-            
-            string title = list.Titel;
-            string firstname = list.Vorname;
-            string lastname = list.Nachname;
-            string suffix = list.Suffix;
-            DateTime birthday = list.Geburtsdatum;
-            string adress = list.Adresse;
-            string billingadress = list.Rechnungsadresse;
-            string deliveryadress = list.Lieferadresse;
+
+            foreach (var obj in list.contact)
+            {
+                id = obj.ID;
+                title = obj.Titel;
+                firstname = obj.Vorname;
+                lastname = obj.Nachname;
+                suffix = obj.Suffix;
+                birthday = obj.Geburtsdatum;
+                adress = obj.Adresse;
+                billingadress = obj.Rechnungsadresse;
+                deliveryadress = obj.Lieferadresse;
+            }
 
             try
             {
@@ -253,20 +226,23 @@ namespace Interface
                 {
                     db.Open();
                     //SQL Statement zum auslesen
-                     string query = "INSERT INTO Person VALUES (@title, @firstname, @lastname, @suffix, @birthday)";
-                    //string query2 = "INSERT INTO ";
+                    string query = "INSERT INTO Person(Titel, Vorname, Nachname, Suffix, Geburtsdatum) VALUES (@title, @firstname, @lastname, @suffix, @birthday)";
+                    string query2 = "INSERT INTO Kontakte(Adresse, Rechnungsadresse, Lieferadresse) VALUES(@adress, @billingadress, @deliveryadress)";
 
 
-                    SqlCommand cmdInsert1 = new SqlCommand(query, db);
-                    //SqlCommand cmdUpdate2 = new SqlCommand(query2, db);
-                    cmdInsert1.Parameters.AddWithValue("@title", title);
-                    cmdInsert1.Parameters.AddWithValue("@firstname", firstname);
-                    cmdInsert1.Parameters.AddWithValue("@lastname", lastname);
-                    cmdInsert1.Parameters.AddWithValue("@suffix", suffix);
-                    cmdInsert1.Parameters.AddWithValue("@birthday", birthday);
-                    //cmdUpdate2.Parameters.AddWithValue("@adress", adress);
-                    //cmdUpdate2.Parameters.AddWithValue("@billingadress", billingadress);
-                    //cmdUpdate2.Parameters.AddWithValue("@deliveryadress", deliveryadress);
+                    SqlCommand cmdUpdate1 = new SqlCommand(query, db);
+                    SqlCommand cmdUpdate2 = new SqlCommand(query2, db);
+                    cmdUpdate1.Parameters.AddWithValue("@title", title);
+                    cmdUpdate1.Parameters.AddWithValue("@firstname", firstname);
+                    cmdUpdate1.Parameters.AddWithValue("@lastname", lastname);
+                    cmdUpdate1.Parameters.AddWithValue("@suffix", suffix);
+                    cmdUpdate1.Parameters.AddWithValue("@birthday", birthday);
+                    cmdUpdate2.Parameters.AddWithValue("@adress", adress);
+                    cmdUpdate2.Parameters.AddWithValue("@billingadress", billingadress);
+                    cmdUpdate2.Parameters.AddWithValue("@deliveryadress", deliveryadress);
+
+                    cmdUpdate1.ExecuteNonQuery();
+                    cmdUpdate2.ExecuteNonQuery();
 
                     db.Close();
                 }
@@ -280,14 +256,18 @@ namespace Interface
         #endregion
 
         #region NewFirm
-        public void NewFirm(Contact list)
+        public void NewFirm(Firmlist list)
         {
+            foreach (var obj in list.firma)
+            {
 
-            string firmname = list.Name;
-            string UID = list.UID;
-            string adress = list.Adresse;
-            string billingadress = list.Rechnungsadresse;
-            string deliveryadress = list.Lieferadresse;
+                firmname = obj.Name;
+                UID = obj.UID;
+                adress = obj.Adresse;
+                billingadress = obj.Lieferadresse;
+                deliveryadress = obj.Rechnungsadresse;
+
+            }
 
             try
             {
@@ -295,8 +275,8 @@ namespace Interface
                 {
                     db.Open();
                     //SQL Statement zum auslesen
-                    string query = "INSERT INTO Firma VALUES (@firmname, @UID, @lastname, @suffix, @birthday)";
-                    string query2 = "INSERT INTO Kontakte VALUES(@adress, @billingadress, @deliveryadress)";
+                    string query = "INSERT INTO Firma(Name, UID) VALUES (@firmname, @UID)";
+                    string query2 = "INSERT INTO Kontakte(Adresse, Rechnungsadresse, Lieferadresse) VALUES(@adress, @billingadress, @deliveryadress)";
 
                     SqlCommand cmdInsert1 = new SqlCommand(query, db);
                     SqlCommand cmdInsert2 = new SqlCommand(query2, db);
@@ -305,6 +285,9 @@ namespace Interface
                     cmdInsert2.Parameters.AddWithValue("@adress", adress);
                     cmdInsert2.Parameters.AddWithValue("@billingadress", billingadress);
                     cmdInsert2.Parameters.AddWithValue("@deliveryadress", deliveryadress);
+
+                    cmdInsert1.ExecuteNonQuery();
+                    cmdInsert2.ExecuteNonQuery();
 
                     db.Close();
                 }
@@ -316,5 +299,58 @@ namespace Interface
             }
         }
         #endregion
+
+        #region searchFirm
+        public Firmlist searchFirm(string text)
+        {
+
+            try
+            {
+                Firmlist list = new Firmlist();
+                using (SqlConnection db = new SqlConnection(strCon))
+                {
+                    db.Open();
+
+                    string query = "SELECT ID_Firma, Name, UID, Adresse, Rechnungsadresse, Lieferadresse FROM Kontakte inner join Person on ID_Firma = FK_Firma WHERE [Name] = @text";
+
+                    SqlCommand cmdSelect = new SqlCommand(query, db);
+                    cmdSelect.Parameters.AddWithValue("@text", text);
+
+                    using (SqlDataReader rd = cmdSelect.ExecuteReader())
+                    {
+                        // Daten holen
+                        while (rd.Read())
+                        {
+                            
+                            Firma firm = new Firma();
+                            firm.ID = rd.GetString(0);
+                            firm.Name = rd.GetString(1);
+                            firm.UID = rd.GetString(2);
+                            firm.Adresse = rd.GetString(3);
+                            firm.Rechnungsadresse = rd.GetString(4);
+                            firm.Lieferadresse = rd.GetString(5);
+
+                            list.firma.Add(firm);
+                            //list db null
+                        }
+                        // DataReader schließen 
+                        rd.Close();
+                    }
+
+                    // Verbindung schließen 
+                    db.Close();
+
+                    return list;
+
+                }
+
+            }
+            catch (Exception)
+            {
+                throw new Exception("Connection to Database failed");
+            }
+        }
+        #endregion
+
     }
 }

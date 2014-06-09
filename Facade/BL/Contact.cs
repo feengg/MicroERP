@@ -2,24 +2,45 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace Interface
 {
+
+    [XmlRoot("Contacts")] 
+    public class ContactsList { 
+
+        [XmlElement("Contact")] 
+        public List<Contact> contact { get; set; }
+
+        public ContactsList()
+        {
+            this.contact = new List<Contact>();
+        }
+    }
     public class Contact
     {
-        public int ID { get; set; }
-        public String Titel { get; set; }
-        public String Vorname { get; set; }
-        public String Nachname { get; set; }
-        public String Suffix { get; set; }
-        public DateTime Geburtsdatum { get; set; }
-        public String Adresse { get; set; }
-        public String Lieferadresse { get; set; }
-        public String Rechnungsadresse { get; set; }
-       // public int ID_Person { get; set; }
-        public String Name { get; set; }
-        public String UID { get; set; }
+
+        [XmlElement("ID")] 
+        public int ID { get; set; } 
+        [XmlElement("Titel")] 
+        public string Titel { get; set; } 
+        [XmlElement("Firstname")] 
+        public string Vorname { get; set; } 
+        [XmlElement("Lastname")] 
+        public string Nachname { get; set; } 
+        [XmlElement("Suffix")]
+        public string Suffix { get; set; }
+        [XmlElement("Birthday")]
+        public DateTime Geburtsdatum { get; set; } 
+        [XmlElement("Adress")] 
+        public string Adresse { get; set; } 
+        [XmlElement("deliveryaddress")] 
+        public string Lieferadresse { get; set; }
+        [XmlElement("billingaddress")] 
+        public string Rechnungsadresse { get; set; } }
+
     }
 
 
-}
+

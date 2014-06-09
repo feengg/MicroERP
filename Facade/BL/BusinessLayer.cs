@@ -13,37 +13,44 @@ namespace Interface
         new Invoice_DAL i_dal = new Invoice_DAL();
 
         #region SearchContacts
-        public List<Contact> searchContacts(string text)
+        public ContactsList searchContacts(string text)
         {
             return c_dal.searchContacts(text);
         }
         #endregion
 
         #region SearchID
-        public List<Contact> searchID(int id)
+        public ContactsList searchID(int id)
         {
             return c_dal.searchID(id);
         }
         #endregion
 
         #region UpdateContacts
-        public void UpdateContacts(Contact list)
+        public void UpdateContacts(ContactsList list)
         {
             c_dal.UpdateContacts(list);
         }
         #endregion
 
         #region NewContacts
-        public void NewContacts(Contact list)
+        public void NewContacts(ContactsList list)
         {
             c_dal.NewContacts(list);
         }
         #endregion
 
-        #region NewFirm 
-        public void NewFirm(Contact list)
+        #region NewFirm
+        public void NewFirm(Firmlist list)
         {
             c_dal.NewFirm(list);
+        }
+        #endregion
+
+        #region SearchFirm
+        public Firmlist searchFirm(string text)
+        {
+            return c_dal.searchFirm(text);
         }
         #endregion
 
