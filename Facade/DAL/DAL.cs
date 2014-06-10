@@ -94,7 +94,6 @@ namespace Interface
                             contact.Lieferadresse = rd.GetString(8);
 
                             list.contact.Add(contact);
-                            //list db null
                         }
                         // DataReader schließen 
                         rd.Close();
@@ -173,7 +172,7 @@ namespace Interface
         #endregion
 
         #region UpdateContacts
-        public void UpdateContacts(ContactsList list)
+        public void UpdateContacts(ContactsList list) //?
         {
 
             foreach (var obj in list.contact)
@@ -196,23 +195,20 @@ namespace Interface
                     db.Open();
 
                     string query = "UPDATE Person SET Titel = @title, Vorname = @firstname, Nachname = @lastname, Suffix = @suffix, Geburtsdatum = @birthday WHERE ID_Person = @id";
-                    //string query = "UPDATE Person SET Titel = @title, Vorname = @firstname, Nachname = @lastname, Suffix = @suffix WHERE ID_Person = @id";
-                    string query2 = "UPDATE Kontakte SET Adresse = @adress, Rechnungsadresse = @billingadress, Lieferadresse = @deliveryadress WHERE ID_Kontakte = (SELECT FK_Kontakte FROM Person WHERE ID_Person = @id)";
-
-
                     SqlCommand cmdUpdate1 = new SqlCommand(query, db);
-                    SqlCommand cmdUpdate2 = new SqlCommand(query2, db);
                     cmdUpdate1.Parameters.AddWithValue("@id", id);
                     cmdUpdate1.Parameters.AddWithValue("@title", title);
                     cmdUpdate1.Parameters.AddWithValue("@firstname", firstname);
                     cmdUpdate1.Parameters.AddWithValue("@lastname", lastname);
                     cmdUpdate1.Parameters.AddWithValue("@suffix", suffix);
                     cmdUpdate1.Parameters.AddWithValue("@birthday", birthday);
+                    cmdUpdate1.ExecuteNonQuery();
+
+                    string query2 = "UPDATE Kontakte SET Adresse = @adress, Rechnungsadresse = @billingadress, Lieferadresse = @deliveryadress WHERE ID_Kontakte = (SELECT FK_Kontakte FROM Person WHERE ID_Person = @id)";
+                    SqlCommand cmdUpdate2 = new SqlCommand(query2, db);
                     cmdUpdate2.Parameters.AddWithValue("@adress", adress);
                     cmdUpdate2.Parameters.AddWithValue("@billingadress", billingadress);
                     cmdUpdate2.Parameters.AddWithValue("@deliveryadress", deliveryadress);
-
-                    cmdUpdate1.ExecuteNonQuery();
                     cmdUpdate2.ExecuteNonQuery();
 
                     db.Close();
@@ -224,10 +220,10 @@ namespace Interface
                 throw new Exception("Updating Contact failed.");
             }
         }
-        #endregion
+        #endregion 
 
         #region NewContacts
-        public void NewContacts(ContactsList list)
+        public void NewContacts(ContactsList list) //Mit Kontakt verknüpfen!!
         {
 
             foreach (var obj in list.contact)
@@ -245,7 +241,6 @@ namespace Interface
 
             try
             {
-                //List<Contact> list = new List<Contact>();
                 using (SqlConnection db = new SqlConnection(strCon))
                 {
                     db.Open();
@@ -507,7 +502,7 @@ namespace Interface
 
                             invoice.ID = rd.GetInt32(0);
                             invoice.Datum = rd.GetDateTime(1);
-                            invoice.Faelligkeit = rd.GetString(2);
+                            invoice.Faelligkeit = rd.GetDateTime(2);
                             invoice.Nummer = rd.GetString(3);
                             invoice.Kommentar = rd.GetString(4);
                             invoice.Nachricht = rd.GetString(5);

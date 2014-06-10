@@ -85,7 +85,7 @@ namespace Interface
                 if (splitUrl.ContainsValue("Contacts") && splitUrl.ContainsValue("Search"))
                 {
                     
-                    splitUrl.TryGetValue("name", out name);
+                    splitUrl.TryGetValue("Name", out name);
    
                     var result = bl.searchContacts(name);
 
@@ -107,7 +107,7 @@ namespace Interface
                 {
 
                     string ids;
-                    splitUrl.TryGetValue("id", out ids);
+                    splitUrl.TryGetValue("Id", out ids);
                     int.TryParse(ids, out id);
 
                     splitUrl.TryGetValue("title", out title);
@@ -121,8 +121,8 @@ namespace Interface
                     birthday = DateTime.Parse(birthday1, System.Globalization.CultureInfo.InvariantCulture);
 
                     splitUrl.TryGetValue("adress", out adress);
-                    splitUrl.TryGetValue("billingadress", out billingadress);
-                    splitUrl.TryGetValue("deliveryadress", out deliveryadress);
+                    splitUrl.TryGetValue("billingaddress", out billingadress);
+                    splitUrl.TryGetValue("deliveryaddress", out deliveryadress);
 
                     Contact instance = new Contact();
                     instance.ID = id;
@@ -154,9 +154,7 @@ namespace Interface
                 #region NewContacts
                 if (splitUrl.ContainsValue("Contacts") && splitUrl.ContainsValue("New"))
                 {
-
-
-                    splitUrl.TryGetValue("title", out title);
+                    splitUrl.TryGetValue("Title", out title);
                     splitUrl.TryGetValue("firstname", out firstname);
                     splitUrl.TryGetValue("lastname", out lastname);
                     splitUrl.TryGetValue("suffix", out suffix);
@@ -166,9 +164,9 @@ namespace Interface
                     DateTime birthday = new DateTime();
                     birthday = DateTime.Parse(birthday1, System.Globalization.CultureInfo.InvariantCulture);
 
-                    splitUrl.TryGetValue("adress", out adress);
-                    splitUrl.TryGetValue("billingadress", out billingadress);
-                    splitUrl.TryGetValue("deliveryadress", out deliveryadress);
+                    splitUrl.TryGetValue("address", out adress);
+                    splitUrl.TryGetValue("deliveryaddress", out billingadress);
+                    splitUrl.TryGetValue("billingaddress", out deliveryadress);
 
                     Contact instance = new Contact();
                     instance.ID = id;
@@ -198,11 +196,11 @@ namespace Interface
                 #endregion
 
                 #region SearchID
-                if (splitUrl.ContainsValue("Contacts") && splitUrl.ContainsValue("ID"))
+                if (splitUrl.ContainsValue("Contacts") && splitUrl.ContainsValue("Id"))
                 {
                     int id;
                     string ids;
-                    splitUrl.TryGetValue("id", out ids);
+                    splitUrl.TryGetValue("Id", out ids);
                     int.TryParse(ids, out id);
 
                     var result = bl.searchID(id);
@@ -222,10 +220,10 @@ namespace Interface
                 //Firma
 
                 #region SearchFirm
-                if (splitUrl.ContainsValue("Contacts") && splitUrl.ContainsValue("SearchFirm"))
+                if (splitUrl.ContainsValue("Firm") && splitUrl.ContainsValue("Search"))
                 {
 
-                    splitUrl.TryGetValue("name", out name);
+                    splitUrl.TryGetValue("Name", out name);
 
                     var result = bl.searchFirm(name);
 
@@ -243,12 +241,12 @@ namespace Interface
                 #endregion
 
                 #region NewFirm
-                if (splitUrl.ContainsValue("Firma") && splitUrl.ContainsValue("New"))
+                if (splitUrl.ContainsValue("Firm") && splitUrl.ContainsValue("New"))
                 {
 
                     splitUrl.TryGetValue("Name", out firmname);
-                    splitUrl.TryGetValue("UID", out UID);
-                    splitUrl.TryGetValue("adress", out adress);
+                    splitUrl.TryGetValue("Uid", out UID);
+                    splitUrl.TryGetValue("address", out adress);
                     splitUrl.TryGetValue("deliveryaddress", out deliveryadress);
                     splitUrl.TryGetValue("billingaddress", out billingadress);
 
@@ -276,14 +274,14 @@ namespace Interface
                     sw.WriteLine("{0}", result2);
                     sw.Flush();
                 }
-                #endregion
+                #endregion 
 
                 #region Search Firm ID
-                if (splitUrl.ContainsValue("Contacts") && splitUrl.ContainsValue("FirmID"))
+                if (splitUrl.ContainsValue("Firm") && splitUrl.ContainsValue("Id"))
                 {
                     int id;
                     string ids;
-                    splitUrl.TryGetValue("id", out ids);
+                    splitUrl.TryGetValue("Id", out ids);
                     int.TryParse(ids, out id);
 
                     var result = bl.searchFirmID(id);
@@ -300,15 +298,15 @@ namespace Interface
                 #endregion
 
                 #region UpdateFirm
-                if (splitUrl.ContainsValue("Contacts") && splitUrl.ContainsValue("UpdateFirm"))
+                if (splitUrl.ContainsValue("Firm") && splitUrl.ContainsValue("Update"))
                 {
 
                     string ids;
-                    splitUrl.TryGetValue("id", out ids);
+                    splitUrl.TryGetValue("Id", out ids);
                     int.TryParse(ids, out id);
 
                     splitUrl.TryGetValue("name", out firmname);
-                    splitUrl.TryGetValue("UID", out UID);
+                    splitUrl.TryGetValue("Uid", out UID);
                     splitUrl.TryGetValue("adress", out adress);
                     splitUrl.TryGetValue("billingadress", out billingadress);
                     splitUrl.TryGetValue("deliveryadress", out deliveryadress);
@@ -339,7 +337,7 @@ namespace Interface
 
                 //Invoice
 
-                #region Search Firm ID
+                #region Search Invoice ID
                 if (splitUrl.ContainsValue("Invoice") && splitUrl.ContainsValue("ID"))
                 {
                     int id;
