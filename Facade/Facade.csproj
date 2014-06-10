@@ -44,8 +44,7 @@
     <Compile Include="BL\Contact.cs" />
     <Compile Include="BL\Firma.cs" />
     <Compile Include="BL\Invoice.cs" />
-    <Compile Include="DAL\Contact_DAL.cs" />
-    <Compile Include="DAL\Invoice_DAL.cs" />
+    <Compile Include="DAL\DAL.cs" />
     <Compile Include="Facade.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

@@ -9,50 +9,66 @@ namespace Interface
 {
     public class BusinessLayer
     {
-        new Contact_DAL c_dal = new Contact_DAL();
-        new Invoice_DAL i_dal = new Invoice_DAL();
+        new DAL dal = new DAL();
+
+        //Contact
 
         #region SearchContacts
         public ContactsList searchContacts(string text)
         {
-            return c_dal.searchContacts(text);
+            return dal.searchContacts(text);
         }
         #endregion
 
         #region SearchID
         public ContactsList searchID(int id)
         {
-            return c_dal.searchID(id);
+            return dal.searchID(id);
         }
         #endregion
 
         #region UpdateContacts
         public void UpdateContacts(ContactsList list)
         {
-            c_dal.UpdateContacts(list);
+            dal.UpdateContacts(list);
         }
         #endregion
 
         #region NewContacts
         public void NewContacts(ContactsList list)
         {
-            c_dal.NewContacts(list);
+            dal.NewContacts(list);
         }
         #endregion
+
+        //Firm
 
         #region NewFirm
         public void NewFirm(Firmlist list)
         {
-            c_dal.NewFirm(list);
+            dal.NewFirm(list);
         }
         #endregion
 
         #region SearchFirm
         public Firmlist searchFirm(string text)
         {
-            return c_dal.searchFirm(text);
+            return dal.searchFirm(text);
         }
         #endregion
 
+        #region Search Firm ID
+        public Firmlist searchFirmID(int id)
+        {
+            return dal.searchFirmID(id);
+        }
+        #endregion
+
+        #region UpdateFirm
+        public void UpdateFirm(Firmlist list)
+        {
+            dal.UpdateFirm(list);
+        }
     }
 }
+

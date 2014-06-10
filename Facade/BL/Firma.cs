@@ -20,7 +20,7 @@ namespace Interface
     public class Firma
     {
         [XmlElement("ID")]
-        public string ID { get; set; }
+        public int ID { get; set; }
 
         [XmlElement("UID")]
         public string UID { get; set; }

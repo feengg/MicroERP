@@ -223,6 +223,7 @@ namespace Interface
 
                 }
                 #endregion
+
                 #region NewFirm
                 if (splitUrl.ContainsValue("Firma") && splitUrl.ContainsValue("New"))
                 {
@@ -259,31 +260,68 @@ namespace Interface
                 }
                 #endregion
 
-                #region SearchID
-                //if (splitUrl.ContainsValue("Contacts") && splitUrl.ContainsValue("ID"))
-                //{
-                //    int id;
-                //    string ids;
-                //    splitUrl.TryGetValue("id", out ids);
-                //    int.TryParse(ids, out id);
+                #region Search Firm ID
+                if (splitUrl.ContainsValue("Contacts") && splitUrl.ContainsValue("FirmID"))
+                {
+                    int id;
+                    string ids;
+                    splitUrl.TryGetValue("id", out ids);
+                    int.TryParse(ids, out id);
 
-                //     result1 = bl.searchID(id);
-                   
-                //    foreach (Contact con in result1)
-                //    {
-                //        //Console.WriteLine("{0} {1}", con.ID, con.Vorname);
-                //        XElement contacts = new XElement("Contacts", new XElement("Contact", new XElement("ID", con.ID), new XElement("Titel", con.Titel), new XElement("Firstname", con.Vorname), new XElement("Lastname", con.Nachname), new XElement("Suffix", con.Suffix), new XElement("Birthday", con.Geburtsdatum), new XElement("Adresse", con.Adresse), new XElement("deliveryaddress", con.Lieferadresse), new XElement("billingaddress", con.Rechnungsadresse)));
-                //        string msg = ToXmlString(contacts);
-                //        sw.WriteLine("HTTP/1.1 200 OK");
-                //        sw.WriteLine("connection: close");
-                //        sw.WriteLine("content-type: text/html");
-                //        sw.WriteLine();
-                //        sw.WriteLine("{0}", msg);
-                //        sw.Flush();
+                    var result = bl.searchFirmID(id);
 
-                //    }
-                //}
+                    string msg = ToXmlString(result);
+
+                    sw.WriteLine("HTTP/1.1 200 OK");
+                    sw.WriteLine("connection: close");
+                    sw.WriteLine("content-type: text/html; charset=utf-8");
+                    sw.WriteLine();
+                    sw.WriteLine("{0}", msg);
+                    sw.Flush();
+                }
                 #endregion
+
+                #region UpdateFirm
+                if (splitUrl.ContainsValue("Contacts") && splitUrl.ContainsValue("UpdateFirm"))
+                {
+
+                    string ids;
+                    splitUrl.TryGetValue("id", out ids);
+                    int.TryParse(ids, out id);
+
+                    splitUrl.TryGetValue("name", out firmname);
+                    splitUrl.TryGetValue("UID", out UID);
+                    splitUrl.TryGetValue("adress", out adress);
+                    splitUrl.TryGetValue("billingadress", out billingadress);
+                    splitUrl.TryGetValue("deliveryadress", out deliveryadress);
+
+                    Firma instance = new Firma();
+                    instance.ID = id;
+                    instance.Name = firmname;
+                    instance.UID = UID;
+                    instance.Adresse = adress;
+                    instance.Rechnungsadresse = billingadress;
+                    instance.Lieferadresse = deliveryadress;
+
+                    Firmlist list = new Firmlist();
+                    list.firma.Add(instance);
+
+                    bl.UpdateFirm(list);
+
+                    result2 = "Firma erfolgreich upgedated!";
+
+                    sw.WriteLine("HTTP/1.1 200 OK");
+                    sw.WriteLine("connection: close");
+                    sw.WriteLine("content-type: text/html; charset=utf-8");
+                    sw.WriteLine();
+                    sw.WriteLine("{0}", result2);
+                    sw.Flush();
+                }
+                #endregion
+
+                //Invoice
+
+
             }
         }
 

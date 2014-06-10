@@ -1,15 +1,30 @@
 USE MircoERP;
 
+
+DROP TABLE Rechnungszeile;
+DROP Table Rechnungen;
 CREATE TABLE Rechnungen
 (
 	ID_Rechnungen INT IDENTITY NOT NULL PRIMARY KEY,
-	FK_Kontakte INT,
+	FK_Person INT,
 	Datum date, 
 	Faelligkeit date,
 	Rechnungsnummer numeric(38,0),
 	Kommentar varchar(100),
 	Nachricht varchar(100),
-	FOREIGN KEY (FK_Kontakte) REFERENCES Kontakte (ID_Kontakte)
+	FOREIGN KEY (FK_Person) REFERENCES Person (ID_Person)
+);
+
+
+CREATE TABLE Rechnungszeile
+(
+	ID_RZeile INT IDENTITY NOT NULL PRIMARY KEY,
+	FK_Rechnungen INT,
+	Artikelname varchar(50),
+	Menge numeric(38,0),
+	Netto numeric(38,0),
+	Ust numeric(38,0),
+	FOREIGN KEY (FK_Rechnungen) REFERENCES Rechnungen (ID_Rechnungen)
 );
 
 CREATE TABLE Kontakte
@@ -45,21 +60,5 @@ CREATE TABLE Firma
 	
 );
 
-CREATE TABLE Artikel
-(
-	ID_Artikel INT IDENTITY NOT NULL PRIMARY KEY,
-	FK_RZeile INT,
-	Name varchar(30),
-	Preis numeric(38,0),
-	UST numeric(38,0),
-	FOREIGN KEY (FK_RZeile) REFERENCES Rechnungszeile (ID_RZeile)	
-);
 
-CREATE TABLE Rechnungszeile
-(
-	ID_RZeile INT IDENTITY NOT NULL PRIMARY KEY,
-	FK_Rechnungen INT,
-	Menge numeric(38,0),
-	Netto numeric(38,0),
-	FOREIGN KEY (FK_Rechnungen) REFERENCES Rechnungen (ID_Rechnungen)
-);
+
