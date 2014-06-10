@@ -24,6 +24,7 @@ CREATE TABLE Rechnungszeile
 	Menge numeric(38,0),
 	Netto numeric(38,0),
 	Ust numeric(38,0),
+	Preis numeric(38,0),
 	FOREIGN KEY (FK_Rechnungen) REFERENCES Rechnungen (ID_Rechnungen)
 );
 

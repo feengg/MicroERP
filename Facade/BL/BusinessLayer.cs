@@ -69,6 +69,26 @@ namespace Interface
         {
             dal.UpdateFirm(list);
         }
+        #endregion
+
+        //Invoice
+        #region searchIDInvoice
+        public InvoiceList searchIDInvoice(int id)
+        {
+            return dal.searchIDInvoice(id);
+        }
+        #endregion
+
+        #region NewInvoice
+        public void NewInvoice(InvoiceList list)
+        {
+            dal.NewInvoice(list);
+        }
     }
 }
 
+
+
+
+
+        

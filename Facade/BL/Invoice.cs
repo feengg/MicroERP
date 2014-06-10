@@ -55,6 +55,9 @@ namespace Interface
         [XmlElement("Ust1")]
         public int Ust1 { get; set; }
 
+        [XmlElement("UnitPrice1")]
+        public int Stueckpreis1 { get; set; }
+
         [XmlElement("Article2")]
         public string Artikel2 { get; set; }
 
@@ -64,6 +67,9 @@ namespace Interface
         [XmlElement("Ust2")]
         public int Ust2 { get; set; }
 
+        [XmlElement("UnitPrice2")]
+        public int Stueckpreis2 { get; set; }
+
         [XmlElement("Article3")]
         public string Artikel3 { get; set; }
 
@@ -72,5 +78,8 @@ namespace Interface
 
         [XmlElement("Ust3")]
         public int Ust3 { get; set; }
+
+        [XmlElement("UnitPrice3")]
+        public int Stueckpreis3 { get; set; }
     }
 }

@@ -45,12 +45,15 @@ namespace Interface
         string article1;
         int amount1;
         int Ust1;
+        int stk1;
         string article2;
         int amount2;
         int Ust2;
+        int stk2;
         string article3;
         int amount3;
         int Ust3;
+        int stk3;
 
         #endregion
 
@@ -531,7 +534,7 @@ namespace Interface
         #endregion
 
         #region NewInvoice
-        public void NewFirm(InvoiceList list)
+        public void NewInvoice(InvoiceList list)
         {
             foreach (var obj in list.invoice)
             {
@@ -549,13 +552,15 @@ namespace Interface
                 article1 = obj.Artikel1;
                 amount1 = obj.Menge1;
                 Ust1 = obj.Ust1;
+                stk1 = obj.Stueckpreis1;
                 article2 = obj.Artikel2;
                 amount2 = obj.Menge2;
                 Ust2 = obj.Ust2;
+                stk2 = obj.Stueckpreis2;
                 article3 = obj.Artikel3;
                 amount3 = obj.Menge3;
                 Ust3 = obj.Ust3;
-
+                stk3 = obj.Stueckpreis3;
 
             }
 
@@ -590,12 +595,13 @@ namespace Interface
                     }
 
 
-                    string query3 = "INSERT INTO Rechnungszeile(FK_Rechnungen, Artikelname, Menge,  Ust) VALUES (@idRechnung, @article, @amount, @Ust)";
+                    string query3 = "INSERT INTO Rechnungszeile(FK_Rechnungen, Artikelname, Menge,  Ust, Preis) VALUES (@idRechnung, @article, @amount, @Ust, @stk)";
                     SqlCommand cmdInsert2 = new SqlCommand(query3, db);
                     cmdInsert2.Parameters.AddWithValue("@idRechnung", idRechnung);
                     cmdInsert2.Parameters.AddWithValue("@article", article1);
                     cmdInsert2.Parameters.AddWithValue("@amount", amount1);
                     cmdInsert2.Parameters.AddWithValue("@Ust", Ust1);
+                    cmdInsert2.Parameters.AddWithValue("@stk", stk1);
                     cmdInsert2.ExecuteNonQuery();
 
                     if(article2 != "")
@@ -606,6 +612,7 @@ namespace Interface
                         cmdInsert3.Parameters.AddWithValue("@article", article2);
                         cmdInsert3.Parameters.AddWithValue("@amount", amount2);
                         cmdInsert3.Parameters.AddWithValue("@Ust", Ust2);
+                        cmdInsert3.Parameters.AddWithValue("@stk", stk2);
                         cmdInsert3.ExecuteNonQuery();
                     }
 
@@ -617,6 +624,7 @@ namespace Interface
                         cmdInsert4.Parameters.AddWithValue("@article", article3);
                         cmdInsert4.Parameters.AddWithValue("@amount", amount3);
                         cmdInsert4.Parameters.AddWithValue("@Ust", Ust3);
+                        cmdInsert4.Parameters.AddWithValue("@stk", stk3);
                         cmdInsert4.ExecuteNonQuery();
                     }
 
