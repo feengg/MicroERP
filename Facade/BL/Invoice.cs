@@ -32,7 +32,7 @@ namespace Interface
         public DateTime Faelligkeit { get; set; }
 
         [XmlElement("Number")]
-        public string Nummer { get; set; }
+        public int Nummer { get; set; }
 
         [XmlElement("IDContact")]
         public int IDKontakt { get; set; }

@@ -38,7 +38,7 @@ namespace Interface
         //Rechung
         DateTime paymentDate;
         int idContact;
-        string number;
+        int number;
         string comment;
         string message;
         string article1;
@@ -137,9 +137,10 @@ namespace Interface
 
                     ContactsList list = new ContactsList();
                     list.contact.Add(instance);
-
-                    bl.UpdateContacts(list);
-
+                    if (list != null)
+                    {
+                        bl.UpdateContacts(list);
+                    }
                     result2 = "Kunde erfolgreich upgedated!";
 
                     sw.WriteLine("HTTP/1.1 200 OK");
@@ -361,7 +362,9 @@ namespace Interface
                 #region NewInvoice
                 if (splitUrl.ContainsValue("Invoice") && splitUrl.ContainsValue("New"))
                 {
-                    splitUrl.TryGetValue("Number", out number);
+                    string numbers;
+                    splitUrl.TryGetValue("Number", out numbers);
+                    int.TryParse(numbers, out number);
 
                     string PayDate1;
                     splitUrl.TryGetValue("PayDate", out PayDate1);
@@ -370,7 +373,7 @@ namespace Interface
                     paymentDate = DateTime.Parse(PayDate1, System.Globalization.CultureInfo.InvariantCulture);
 
                     string ids;
-                    splitUrl.TryGetValue("ID", out ids);
+                    splitUrl.TryGetValue("Id", out ids);
                     int.TryParse(ids, out idContact);
                     
                     splitUrl.TryGetValue("Message", out message);
@@ -411,7 +414,7 @@ namespace Interface
 
                     Invoice invoice = new Invoice();
                     invoice.Nummer = number;
-                    invoice.Datum = paymentDate;
+                    invoice.Faelligkeit = paymentDate;
                     invoice.IDKontakt = idContact;
                     invoice.Nachricht = message;
                     invoice.Kommentar = comment;
