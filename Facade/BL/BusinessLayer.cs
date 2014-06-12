@@ -13,6 +13,13 @@ namespace Interface
 
         //Contact
 
+        #region NewContacts
+        public void NewContacts(ContactsList list)
+        {
+            dal.NewContacts(list);
+        }
+        #endregion
+
         #region SearchContacts
         public ContactsList searchContacts(string text)
         {
@@ -31,13 +38,6 @@ namespace Interface
         public void UpdateContacts(ContactsList list)
         {
             dal.UpdateContacts(list);
-        }
-        #endregion
-
-        #region NewContacts
-        public void NewContacts(ContactsList list)
-        {
-            dal.NewContacts(list);
         }
         #endregion
 
@@ -72,6 +72,21 @@ namespace Interface
         #endregion
 
         //Invoice
+
+        #region NewInvoice
+        public void NewInvoice(InvoiceList list)
+        {
+            dal.NewInvoice(list);
+        }
+        #endregion
+
+        #region SearchInvoice
+        public InvoiceList searchInvoiceByName(string contactSearch)
+        {
+            return dal.searchInvoiceByName(contactSearch);
+        }
+        #endregion
+
         #region searchIDInvoice
         public InvoiceList searchIDInvoice(int id)
         {
@@ -79,10 +94,10 @@ namespace Interface
         }
         #endregion
 
-        #region NewInvoice
-        public void NewInvoice(InvoiceList list)
+        #region UpdateInvoice
+        public void UpdateInvoice(InvoiceList list)
         {
-            dal.NewInvoice(list);
+            dal.UpdateInvoice(list);
         }
         #endregion
     }

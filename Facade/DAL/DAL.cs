@@ -55,6 +55,8 @@ namespace Interface
         int Ust3;
         int stk3;
 
+        int ID;
+        DateTime Datum;
         #endregion
 
         //Contact
@@ -152,7 +154,7 @@ namespace Interface
                         {
                             Console.WriteLine("ID:{0} & Vorname:{1}", rd["ID_Person"], rd["Vorname"]);
                             Contact contact = new Contact();
-                            
+
                             contact.ID = rd.GetInt32(0);
                             contact.Titel = rd.GetString(1);
                             contact.Vorname = rd.GetString(2);
@@ -179,7 +181,7 @@ namespace Interface
             }
             catch (Exception)
             {
-                throw new Exception("Connection to Database failed");
+                throw new Exception("Searching Contact failed");
             }
         }
         #endregion
@@ -220,13 +222,10 @@ namespace Interface
                             instance.Lieferadresse = rd.GetString(8);
 
                             list.contact.Add(instance);
-                            //list db null
                         }
-                        // DataReader schließen 
                         rd.Close();
                     }
 
-                    // Verbindung schließen 
                     db.Close();
 
                     return list;
@@ -236,7 +235,7 @@ namespace Interface
             }
             catch (Exception)
             {
-                throw new Exception("Connection to Database failed");
+                throw new Exception("Searching Contact ID failed");
             }
         }
         #endregion
@@ -284,7 +283,7 @@ namespace Interface
                 throw new Exception("Updating Contact failed.");
             }
 
-           
+
         }
         public void Adresse(int id, string adress, string billingadress, string deliveryadress)
         {
@@ -312,7 +311,7 @@ namespace Interface
             }
 
         }
-        #endregion 
+        #endregion
 
 
         //Firma
@@ -334,7 +333,7 @@ namespace Interface
                 using (SqlConnection db = new SqlConnection(strCon))
                 {
                     db.Open();
-                   
+
                     string query = "INSERT INTO Kontakte(Adresse, Rechnungsadresse, Lieferadresse) VALUES(@adress, @billingadress, @deliveryadress)";
 
                     SqlCommand cmdInsert1 = new SqlCommand(query, db);
@@ -362,7 +361,7 @@ namespace Interface
                 {
                     db.Open();
                     string query2 = " INSERT INTO Firma(FK_Kontakte, Name, UID) VALUES ((SELECT ID_Kontakte FROM Kontakte WHERE Adresse = @adress), @firmname, @UID)";
-                    
+
                     SqlCommand cmdInsert2 = new SqlCommand(query2, db);
                     cmdInsert2.Parameters.AddWithValue("@adress", adress);
                     cmdInsert2.Parameters.AddWithValue("@firmname", firmname);
@@ -604,21 +603,7 @@ namespace Interface
 
                     SaveID(number);
 
-                    SaveInvoiceRow1(idRechnung, article1, amount1, Ust1, stk1);
-
-
-
-
-
-                    if (article2 != "")
-                    {
-                        SaveInvoiceRow2(idRechnung, article2, amount2, Ust2, stk2);
-                    }
-
-                    if (article3 != "")
-                    {
-                        SaveInvoiceRow3(idRechnung, article3, amount3, Ust3, stk3);
-                    }
+                    SaveInvoiceRow(idRechnung, article1, amount1, Ust1, stk1, article2, amount2, Ust2, stk2, article3, amount3, Ust3, stk3);
 
                     db.Close();
                 }
@@ -660,20 +645,28 @@ namespace Interface
         #endregion
 
         #region SaveInvoiceRow
-        public void SaveInvoiceRow1(int idRechnung, string article1, int amount1, int Ust1, int stk1)
+        public void SaveInvoiceRow(int idRechnung, string article1, int amount1, int Ust1, int stk1, string article2, int amount2, int Ust2, int stk2, string article3, int amount3, int Ust3, int stk3)
         {
             try
             {
                 using (SqlConnection db = new SqlConnection(strCon))
                 {
                     db.Open();
-                    string query3 = "INSERT INTO Rechnungszeile(FK_Rechnungen, Artikelname, Menge,  Ust, Preis) VALUES (@idRechnung, @article, @amount, @Ust, @stk)";
+                    string query3 = "INSERT INTO Rechnungszeile(FK_Rechnungen, Artikelname1, Menge1,  Ust1, Preis1, Artikelname2, Menge2,  Ust2, Preis2, Artikelname3, Menge3,  Ust3, Preis3) VALUES (@idRechnung, @article1, @amount1, @Ust1, @stk1, @article2, @amount2, @Ust2, @stk2, @article3, @amount3, @Ust3, @stk3)";
                     SqlCommand cmdInsert2 = new SqlCommand(query3, db);
                     cmdInsert2.Parameters.AddWithValue("@idRechnung", idRechnung);
-                    cmdInsert2.Parameters.AddWithValue("@article", article1);
-                    cmdInsert2.Parameters.AddWithValue("@amount", amount1);
-                    cmdInsert2.Parameters.AddWithValue("@Ust", Ust1);
-                    cmdInsert2.Parameters.AddWithValue("@stk", stk1);
+                    cmdInsert2.Parameters.AddWithValue("@article1", article1);
+                    cmdInsert2.Parameters.AddWithValue("@amount1", amount1);
+                    cmdInsert2.Parameters.AddWithValue("@Ust1", Ust1);
+                    cmdInsert2.Parameters.AddWithValue("@stk1", stk1);
+                    cmdInsert2.Parameters.AddWithValue("@article2", article2);
+                    cmdInsert2.Parameters.AddWithValue("@amount2", amount2);
+                    cmdInsert2.Parameters.AddWithValue("@Ust2", Ust2);
+                    cmdInsert2.Parameters.AddWithValue("@stk2", stk2);
+                    cmdInsert2.Parameters.AddWithValue("@article3", article3);
+                    cmdInsert2.Parameters.AddWithValue("@amount3", amount3);
+                    cmdInsert2.Parameters.AddWithValue("@Ust3", Ust3);
+                    cmdInsert2.Parameters.AddWithValue("@stk3", stk3);
                     cmdInsert2.ExecuteNonQuery();
 
                     db.Close();
@@ -685,55 +678,6 @@ namespace Interface
             }
         }
 
-        public void SaveInvoiceRow2(int idRechnung, string article2, int amount2, int Ust2, int stk2)
-        {
-            try
-            {
-                using (SqlConnection db = new SqlConnection(strCon))
-                {
-                    db.Open();
-                    string query4 = "INSERT INTO Rechnungszeile(FK_Rechnungen, Artikelname, Menge,  Ust, Preis) VALUES (@idRechnung, @article, @amount, @Ust, @stk)";
-                    SqlCommand cmdInsert2 = new SqlCommand(query4, db);
-                    cmdInsert2.Parameters.AddWithValue("@idRechnung", idRechnung);
-                    cmdInsert2.Parameters.AddWithValue("@article", article2);
-                    cmdInsert2.Parameters.AddWithValue("@amount", amount2);
-                    cmdInsert2.Parameters.AddWithValue("@Ust", Ust2);
-                    cmdInsert2.Parameters.AddWithValue("@stk", stk2);
-                    cmdInsert2.ExecuteNonQuery();
-
-                    db.Close();
-                }
-            }
-            catch (Exception)
-            {
-                throw new Exception("Inserting InvoiceRow2 failed.");
-            }
-        }
-
-        public void SaveInvoiceRow3(int idRechnung, string article3, int amount3, int Ust3, int stk3)
-        {
-            try
-            {
-                using (SqlConnection db = new SqlConnection(strCon))
-                {
-                    db.Open();
-                    string query5 = "INSERT INTO Rechnungszeile(FK_Rechnungen, Artikelname, Menge,  Ust) VALUES (@idRechnung, @article, @amount, @Ust)";
-                    SqlCommand cmdInsert4 = new SqlCommand(query5, db);
-                    cmdInsert4.Parameters.AddWithValue("@idRechnung", idRechnung);
-                    cmdInsert4.Parameters.AddWithValue("@article", article3);
-                    cmdInsert4.Parameters.AddWithValue("@amount", amount3);
-                    cmdInsert4.Parameters.AddWithValue("@Ust", Ust3);
-                    cmdInsert4.Parameters.AddWithValue("@stk", stk3);
-                    cmdInsert4.ExecuteNonQuery();
-
-                    db.Close();
-                }
-            }
-            catch (Exception)
-            {
-                throw new Exception("Inserting InvoiceRow3 failed.");
-            }
-        }
         #endregion
 
         #endregion
@@ -748,33 +692,70 @@ namespace Interface
                 using (SqlConnection db = new SqlConnection(strCon))
                 {
                     db.Open();
+                    string query = "SELECT ID_Rechnungen, Datum, Faelligkeit, Rechnungsnummer, Rechnungsadresse, Vorname, Nachname, Kommentar, Nachricht FROM Rechnungen inner join Person on FK_Person = ID_Person inner join Kontakte on FK_Kontakte = ID_Kontakte WHERE [ID_Rechnungen] = @id";
+                    SqlCommand cmdSelect1 = new SqlCommand(query, db);
+                    cmdSelect1.Parameters.AddWithValue("@id", id);
 
-                    string query = "SELECT ID_Rechnungen, Datum, Faelligkeit, Rechnungsnummer, Kommentar, Nachricht FROM Rechnungen WHERE [ID_Rechungen] = @id";
-
-                    SqlCommand cmdSelect = new SqlCommand(query, db);
-                    cmdSelect.Parameters.AddWithValue("@id", id);
-
-                    using (SqlDataReader rd = cmdSelect.ExecuteReader())
+                    using (SqlDataReader rd = cmdSelect1.ExecuteReader())
                     {
-                        // Daten holen
+                        while (rd.Read())
+                        {
+
+                            ID = rd.GetInt32(0);
+                            Datum = rd.GetDateTime(1);
+                            paymentDate = rd.GetDateTime(2);
+                            number = rd.GetInt32(3);
+                            billingadress = rd.GetString(4);
+                            firstname = rd.GetString(5);
+                            lastname = rd.GetString(6);
+                            comment = rd.GetString(7);
+                            message = rd.GetString(8);
+
+                        }
+
+                        rd.Close();
+                    }
+
+                    string query2 = "SELECT Artikelname1, Menge1, Ust1, Preis1, Artikelname2, Menge2, Ust2, Preis2, Artikelname3, Menge3, Ust3, Preis3 FROM Rechnungszeile WHERE [FK_Rechnungen] = @id";
+                    SqlCommand cmdSelect2 = new SqlCommand(query2, db);
+                    cmdSelect2.Parameters.AddWithValue("@id", id);
+
+                    using (SqlDataReader rd = cmdSelect2.ExecuteReader())
+                    {
                         while (rd.Read())
                         {
                             Invoice invoice = new Invoice();
 
-                            invoice.ID = rd.GetInt32(0);
-                            invoice.Datum = rd.GetDateTime(1);
-                            invoice.Faelligkeit = rd.GetDateTime(2);
-                            invoice.Nummer = rd.GetInt32(3);
-                            invoice.Kommentar = rd.GetString(4);
-                            invoice.Nachricht = rd.GetString(5);
+                            invoice.ID = ID;
+                            invoice.Datum = Datum;
+                            invoice.Faelligkeit = paymentDate;
+                            invoice.Nummer = number;
+                            invoice.Rechnungsadresse = billingadress;
+                            invoice.Vorname = firstname;
+                            invoice.Nachname = lastname;
+                            invoice.Kommentar = comment;
+                            invoice.Nachricht = message;
+                            invoice.Artikel1 = rd.GetString(0);
+                            invoice.Menge1 = rd.GetInt32(1);
+                            invoice.Ust1 = rd.GetInt32(2);
+                            invoice.Stueckpreis1 = rd.GetInt32(3);
+                            invoice.Artikel2 = rd.GetString(4);
+                            invoice.Menge2 = rd.GetInt32(5);
+                            invoice.Ust2 = rd.GetInt32(6);
+                            invoice.Stueckpreis2 = rd.GetInt32(6);
+                            invoice.Artikel3 = "";
+                            //if (rd.IsDBNull(7)) invoice.Artikel3 = "";
+                            //invoice.Artikel3 = rd.GetString(7);
+                            //invoice.Menge3 = rd.GetInt32(8);
+                            //invoice.Ust3 = rd.GetInt32(9);
+                            //invoice.Stueckpreis3 = rd.GetInt32(10);
 
                             list.invoice.Add(invoice);
                         }
-                        // DataReader schließen 
                         rd.Close();
                     }
 
-                    // Verbindung schließen 
+
                     db.Close();
 
                     return list;
@@ -784,13 +765,287 @@ namespace Interface
             }
             catch (Exception)
             {
-                throw new Exception("Connection to Database failed");
+                throw new Exception("Seacrhing Invoice ID failed");
             }
         }
         #endregion
 
-        
+        #region searchInvoice
+        public InvoiceList searchInvoiceByName(string searchKontakt)
+        {
 
+            try
+            {
+                InvoiceList list = new InvoiceList();
+
+                using (SqlConnection db = new SqlConnection(strCon))
+                {
+                    db.Open();
+
+                    string query = "SELECT ID_Rechnungen, Datum, Faelligkeit, Rechnungsnummer, Rechnungsadresse, Vorname, Nachname, Kommentar, Nachricht FROM Rechnungen inner join Person on FK_Person = ID_Person inner join Kontakte on FK_Kontakte = ID_Kontakte WHERE [Vorname] = @searchKontakt or [Nachname] = @searchKontakt";
+
+                    SqlCommand cmdSelect = new SqlCommand(query, db);
+                    cmdSelect.Parameters.AddWithValue("@searchKontakt", searchKontakt);
+
+                    using (SqlDataReader rd = cmdSelect.ExecuteReader())
+                    {
+                        while (rd.Read())
+                        {
+                            ID = rd.GetInt32(0);
+                            Datum = rd.GetDateTime(1);
+                            paymentDate = rd.GetDateTime(2);
+                            number = rd.GetInt32(3);
+                            billingadress = rd.GetString(4);
+                            firstname = rd.GetString(5);
+                            lastname = rd.GetString(6);
+                            comment = rd.GetString(7);
+                            message = rd.GetString(8);
+                        }
+
+                        rd.Close();
+                    }
+
+                    string query2 = "SELECT Artikelname1, Menge1, Ust1, Preis1, Artikelname2, Menge2, Ust2, Preis2, Artikelname3, Menge3, Ust3, Preis3 FROM Rechnungszeile WHERE [FK_Rechnungen] = @id";
+                    SqlCommand cmdSelect1 = new SqlCommand(query2, db);
+                    cmdSelect1.Parameters.AddWithValue("@id", ID);
+
+                    using (SqlDataReader rd = cmdSelect1.ExecuteReader())
+                    {
+                        while (rd.Read())
+                        {
+                            Invoice invoice = new Invoice();
+                            invoice.ID = ID;
+                            invoice.Datum = Datum;
+                            invoice.Faelligkeit = paymentDate;
+                            invoice.Nummer = number;
+                            invoice.Rechnungsadresse = billingadress;
+                            invoice.Vorname = firstname;
+                            invoice.Nachname = lastname;
+                            invoice.Kommentar = comment;
+                            invoice.Nachricht = message;
+                            invoice.Artikel1 = rd.GetString(0);
+                            invoice.Menge1 = rd.GetInt32(1);
+                            invoice.Ust1 = rd.GetInt32(2);
+                            invoice.Stueckpreis1 = rd.GetInt32(3);
+                            invoice.Artikel2 = rd.GetString(4);
+                            invoice.Menge2 = rd.GetInt32(5);
+                            invoice.Ust2 = rd.GetInt32(6);
+                            invoice.Stueckpreis2 = rd.GetInt32(6);
+                            invoice.Artikel3 = "";
+                            //if (rd.IsDBNull(7)) invoice.Artikel3 = "";
+                            //invoice.Artikel3 = rd.GetString(7);
+                            //invoice.Menge3 = rd.GetInt32(8);
+                            //invoice.Ust3 = rd.GetInt32(9);
+                            //invoice.Stueckpreis3 = rd.GetInt32(10);
+
+                            list.invoice.Add(invoice);
+                        }
+                        rd.Close();
+                    }
+
+                    db.Close();
+
+                    return list;
+
+                }
+
+
+            }
+            catch (Exception)
+            {
+                throw new Exception("Search Invoice by Contact failed");
+            }
+        }
+
+        #region SaveID
+        public void SaveIDKontakt(string searchKontakt)
+        {
+            try
+            {
+                using (SqlConnection db = new SqlConnection(strCon))
+                {
+                    db.Open();
+                    string query2 = "SELECT ID_Rechnungen FROM Rechnungen inner join Person on FK_Person = ID_Person WHERE [Vorname] = @searchKontakt or [Nachname] = @searchKontakt";
+                    SqlCommand cmdSelect = new SqlCommand(query2, db);
+                    cmdSelect.Parameters.AddWithValue("@searchKontakt", searchKontakt);
+
+                    using (SqlDataReader rd = cmdSelect.ExecuteReader())
+                    {
+                        while (rd.Read())
+                        {
+                            idRechnung = rd.GetInt32(0);
+                        }
+                        rd.Close();
+                    }
+                    db.Close();
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("Selecting InvoiceIDKontakt failed.");
+            }
+        }
+        #endregion
+        #endregion
+
+        #region Update Invoice
+        public void UpdateInvoice(InvoiceList list)
+        {
+
+            foreach (var obj in list.invoice)
+            {
+                //Invoice
+                id = obj.ID;
+                paymentDate = obj.Faelligkeit;
+                number = obj.Nummer;
+                comment = obj.Kommentar;
+                message = obj.Nachricht;
+                //InvoiceLine
+                article1 = obj.Artikel1;
+                amount1 = obj.Menge1;
+                Ust1 = obj.Ust1;
+                stk1 = obj.Stueckpreis1;
+                article2 = obj.Artikel2;
+                amount2 = obj.Menge2;
+                Ust2 = obj.Ust2;
+                stk2 = obj.Stueckpreis2;
+                article3 = obj.Artikel3;
+                amount3 = obj.Menge3;
+                Ust3 = obj.Ust3;
+                stk3 = obj.Stueckpreis3;
+                //Person
+                firstname = obj.Vorname;
+                lastname = obj.Nachname;
+                //Contact
+                deliveryadress = obj.Rechnungsadresse;
+            }
+
+            try
+            {
+                using (SqlConnection db = new SqlConnection(strCon))
+                {
+                    db.Open();
+
+                    string query = "UPDATE Rechnungen SET Faelligkeit = @paymentDate, Rechnungsnummer = @number, Kommentar = @comment, Nachricht = @message WHERE [ID_Rechnungen] = @id";
+
+
+                    SqlCommand cmdUpdate1 = new SqlCommand(query, db);
+                    cmdUpdate1.Parameters.AddWithValue("@id", id);
+                    cmdUpdate1.Parameters.AddWithValue("@paymentDate", paymentDate);
+                    cmdUpdate1.Parameters.AddWithValue("@number", number);
+                    cmdUpdate1.Parameters.AddWithValue("@comment", comment);
+                    cmdUpdate1.Parameters.AddWithValue("@message", message);
+
+                    cmdUpdate1.ExecuteNonQuery();
+
+                    db.Close();
+                    Rechnungszeile(id, article1, amount1, Ust1, stk1, article2, amount2, Ust2, stk2, article3, amount3, Ust3, stk3);
+                    InvoicePerson(id, firstname, lastname);
+                    InoviceContact(id, deliveryadress);
+                }
+
+            }
+            catch (Exception)
+            {
+                throw new Exception("Updating Invoice failed.");
+            }
+        }
+
+        #region Rechnungszeile
+        public void Rechnungszeile(int id, string article1, int amount1, int Ust1, int stk1, string article2, int amount2, int Ust2, int stk2, string article3, int amount3, int Ust3, int stk3 )
+        {
+            try
+            {
+                using (SqlConnection db = new SqlConnection(strCon))
+                {
+                    db.Open();
+                    string query2 = "UPDATE Rechnungszeile SET Artikelname1 = @article1, Menge1 = @amount1, Ust1 = @Ust1, Preis1 = @stk1, Artikelname2 = @article2, Menge2 = @amount2, Ust2 = @Ust2, Preis2 = @stk2, Artikelname3 = @article3, Menge3 = @amount3, Ust3 = @Ust3, Preis3 = @stk3 WHERE [FK_Rechnungen] = @id";
+                    SqlCommand cmdUpdate2 = new SqlCommand(query2, db);
+                    cmdUpdate2.Parameters.AddWithValue("@id", id);
+                    cmdUpdate2.Parameters.AddWithValue("@article1", article1);
+                    cmdUpdate2.Parameters.AddWithValue("@amount1", amount1);
+                    cmdUpdate2.Parameters.AddWithValue("@Ust1", Ust1);
+                    cmdUpdate2.Parameters.AddWithValue("@stk1", stk1);
+                    cmdUpdate2.Parameters.AddWithValue("@article2", article2);
+                    cmdUpdate2.Parameters.AddWithValue("@amount2", amount2);
+                    cmdUpdate2.Parameters.AddWithValue("@Ust2", Ust2);
+                    cmdUpdate2.Parameters.AddWithValue("@stk2", stk2);
+                    cmdUpdate2.Parameters.AddWithValue("@article3", article3);
+                    cmdUpdate2.Parameters.AddWithValue("@amount3", amount3);
+                    cmdUpdate2.Parameters.AddWithValue("@Ust3", Ust3);
+                    cmdUpdate2.Parameters.AddWithValue("@stk3", stk3);
+
+
+                    cmdUpdate2.ExecuteNonQuery();
+
+                    db.Close();
+                }
+
+            }
+            catch (Exception)
+            {
+                throw new Exception("Updating Invoice Line failed.");
+            }
+
+        }
+        #endregion 
+
+        #region InvoicePerson
+        public void InvoicePerson(int id, string firstname, string lastname)
+        {
+            try
+            {
+                using (SqlConnection db = new SqlConnection(strCon))
+                {
+                    db.Open();
+
+                    string query3 = "UPDATE Person SET Vorname = @firstname, Nachname = @lastname WHERE ID_PERSON = (SELECT FK_PERSON FROM Rechnungen WHERE [ID_Rechnungen} = @id)";
+                    SqlCommand cmdUpdate3 = new SqlCommand(query3, db);
+                    cmdUpdate3.Parameters.AddWithValue("@id", id);
+                    cmdUpdate3.Parameters.AddWithValue("@firstname", firstname);
+                    cmdUpdate3.Parameters.AddWithValue("@lastname", lastname);
+
+                    cmdUpdate3.ExecuteNonQuery();
+
+                    db.Close();
+                }
+
+            }
+            catch (Exception)
+            {
+                throw new Exception("Updating Invoice Person failed.");
+            }
+
+        }
+        #endregion
+
+        #region InoviceContact
+        public void InoviceContact(int id, string deliveryadress)
+        {
+            try
+            {
+                using (SqlConnection db = new SqlConnection(strCon))
+                {
+                    db.Open();
+                    string query3 = "UPDATE KONTAKTE SET Rechnungsadresse = @deliveryadress WHERE ID_Kontakte = (SELECT FK_Kontakte FROM Person WHERE  ID_PERSON = (SELECT FK_PERSON FROM Rechnungen WHERE ID_Rechnungen = @id))";
+                    SqlCommand cmdUpdate3 = new SqlCommand(query3, db);
+                    cmdUpdate3.Parameters.AddWithValue("@id", id);
+                    cmdUpdate3.Parameters.AddWithValue("@deliveryadress", deliveryadress);
+
+                    cmdUpdate3.ExecuteNonQuery();
+
+                    db.Close();
+                }
+
+            }
+            catch (Exception)
+            {
+                throw new Exception("Updating Invoice Contact failed.");
+            }
+
+        }
+        #endregion
+        #endregion
 
     }
 }

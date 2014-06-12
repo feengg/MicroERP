@@ -9,7 +9,7 @@ CREATE TABLE Rechnungen
 	FK_Person INT,
 	Datum date, 
 	Faelligkeit date,
-	Rechnungsnummer numeric(38,0),
+	Rechnungsnummer INT,
 	Kommentar varchar(100),
 	Nachricht varchar(100),
 	FOREIGN KEY (FK_Person) REFERENCES Person (ID_Person)
@@ -21,10 +21,9 @@ CREATE TABLE Rechnungszeile
 	ID_RZeile INT IDENTITY NOT NULL PRIMARY KEY,
 	FK_Rechnungen INT,
 	Artikelname varchar(50),
-	Menge numeric(38,0),
-	Netto numeric(38,0),
-	Ust numeric(38,0),
-	Preis numeric(38,0),
+	Menge INT,
+	Ust INT,
+	Preis INT,
 	FOREIGN KEY (FK_Rechnungen) REFERENCES Rechnungen (ID_Rechnungen)
 );
 

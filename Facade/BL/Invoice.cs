@@ -37,6 +37,12 @@ namespace Interface
         [XmlElement("IDContact")]
         public int IDKontakt { get; set; }
 
+        [XmlElement("Firstname")]
+        public string Vorname { get; set; }
+
+        [XmlElement("Lastname")]
+        public string Nachname { get; set; }
+
         [XmlElement("Billingadress")]
         public string Rechnungsadresse { get; set; }
 
