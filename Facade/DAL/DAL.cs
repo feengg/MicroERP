@@ -241,7 +241,7 @@ namespace Interface
         #endregion
 
         #region UpdateContacts
-        public void UpdateContacts(ContactsList list) //?
+        public void UpdateContacts(ContactsList list) 
         {
 
             foreach (var obj in list.contact)
@@ -679,7 +679,6 @@ namespace Interface
         }
 
         #endregion
-
         #endregion
 
         #region SearchIDInvoice
@@ -896,8 +895,6 @@ namespace Interface
             {
                 //Invoice
                 id = obj.ID;
-                paymentDate = obj.Faelligkeit;
-                number = obj.Nummer;
                 comment = obj.Kommentar;
                 message = obj.Nachricht;
                 //InvoiceLine
@@ -913,11 +910,7 @@ namespace Interface
                 amount3 = obj.Menge3;
                 Ust3 = obj.Ust3;
                 stk3 = obj.Stueckpreis3;
-                //Person
-                firstname = obj.Vorname;
-                lastname = obj.Nachname;
-                //Contact
-                deliveryadress = obj.Rechnungsadresse;
+
             }
 
             try
@@ -926,12 +919,11 @@ namespace Interface
                 {
                     db.Open();
 
-                    string query = "UPDATE Rechnungen SET Faelligkeit = @paymentDate, Rechnungsnummer = @number, Kommentar = @comment, Nachricht = @message WHERE [ID_Rechnungen] = @id";
+                    string query = "UPDATE Rechnungen SET Kommentar = @comment, Nachricht = @message WHERE [ID_Rechnungen] = @id";
 
 
                     SqlCommand cmdUpdate1 = new SqlCommand(query, db);
                     cmdUpdate1.Parameters.AddWithValue("@id", id);
-                    cmdUpdate1.Parameters.AddWithValue("@paymentDate", paymentDate);
                     cmdUpdate1.Parameters.AddWithValue("@number", number);
                     cmdUpdate1.Parameters.AddWithValue("@comment", comment);
                     cmdUpdate1.Parameters.AddWithValue("@message", message);
@@ -940,8 +932,6 @@ namespace Interface
 
                     db.Close();
                     Rechnungszeile(id, article1, amount1, Ust1, stk1, article2, amount2, Ust2, stk2, article3, amount3, Ust3, stk3);
-                    InvoicePerson(id, firstname, lastname);
-                    InoviceContact(id, deliveryadress);
                 }
 
             }
@@ -989,62 +979,6 @@ namespace Interface
 
         }
         #endregion 
-
-        #region InvoicePerson
-        public void InvoicePerson(int id, string firstname, string lastname)
-        {
-            try
-            {
-                using (SqlConnection db = new SqlConnection(strCon))
-                {
-                    db.Open();
-
-                    string query3 = "UPDATE Person SET Vorname = @firstname, Nachname = @lastname WHERE ID_PERSON = (SELECT FK_PERSON FROM Rechnungen WHERE [ID_Rechnungen} = @id)";
-                    SqlCommand cmdUpdate3 = new SqlCommand(query3, db);
-                    cmdUpdate3.Parameters.AddWithValue("@id", id);
-                    cmdUpdate3.Parameters.AddWithValue("@firstname", firstname);
-                    cmdUpdate3.Parameters.AddWithValue("@lastname", lastname);
-
-                    cmdUpdate3.ExecuteNonQuery();
-
-                    db.Close();
-                }
-
-            }
-            catch (Exception)
-            {
-                throw new Exception("Updating Invoice Person failed.");
-            }
-
-        }
-        #endregion
-
-        #region InoviceContact
-        public void InoviceContact(int id, string deliveryadress)
-        {
-            try
-            {
-                using (SqlConnection db = new SqlConnection(strCon))
-                {
-                    db.Open();
-                    string query3 = "UPDATE KONTAKTE SET Rechnungsadresse = @deliveryadress WHERE ID_Kontakte = (SELECT FK_Kontakte FROM Person WHERE  ID_PERSON = (SELECT FK_PERSON FROM Rechnungen WHERE ID_Rechnungen = @id))";
-                    SqlCommand cmdUpdate3 = new SqlCommand(query3, db);
-                    cmdUpdate3.Parameters.AddWithValue("@id", id);
-                    cmdUpdate3.Parameters.AddWithValue("@deliveryadress", deliveryadress);
-
-                    cmdUpdate3.ExecuteNonQuery();
-
-                    db.Close();
-                }
-
-            }
-            catch (Exception)
-            {
-                throw new Exception("Updating Invoice Contact failed.");
-            }
-
-        }
-        #endregion
         #endregion
 
     }

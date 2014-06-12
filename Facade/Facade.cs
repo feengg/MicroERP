@@ -366,7 +366,7 @@ namespace Interface
                     list.invoice.Add(invoice);
 
                     bl.NewInvoice(list);
-                    
+
                     result2 = "Rechnung erfolgreich hinzugefügt!";
                     sendResponse(result2);
                 }
@@ -440,21 +440,9 @@ namespace Interface
                 if (splitUrl.ContainsValue("Invoice") && splitUrl.ContainsValue("Update"))
                 {
 
-                    //GUI: Faelligkeit, Rechnugsadresse, Vorname & Nachname Person --> Bei invoice Objekt auch hinzufügen 
-
-                    string numbers;
-                    splitUrl.TryGetValue("Number", out numbers);
-                    int.TryParse(numbers, out number);
-
-                    string PayDate1;
-                    splitUrl.TryGetValue("PayDate", out PayDate1);
-
-                    DateTime paymentDate = new DateTime();
-                    paymentDate = DateTime.Parse(PayDate1, System.Globalization.CultureInfo.InvariantCulture);
-
                     string ids;
                     splitUrl.TryGetValue("Id", out ids);
-                    int.TryParse(ids, out idContact);
+                    int.TryParse(ids, out id);
 
                     splitUrl.TryGetValue("Note", out message);
                     splitUrl.TryGetValue("Comment", out comment);
@@ -494,14 +482,9 @@ namespace Interface
                     int.TryParse(U3, out Ust3);
                     #endregion
 
-                    splitUrl.TryGetValue("Firstname", out firstname);
-                    splitUrl.TryGetValue("Lastname", out lastname);
-                    splitUrl.TryGetValue("billingaddress", out billingadress);
 
                     Invoice invoice = new Invoice();
-                    invoice.Nummer = number;
-                    invoice.Faelligkeit = paymentDate;
-                    invoice.IDKontakt = idContact;
+                    invoice.ID = id;
                     invoice.Nachricht = message;
                     invoice.Kommentar = comment;
                     invoice.Menge1 = amount1;
@@ -516,9 +499,6 @@ namespace Interface
                     invoice.Artikel3 = article3;
                     invoice.Stueckpreis3 = stk3;
                     invoice.Ust3 = Ust3;
-                    invoice.Vorname = firstname;
-                    invoice.Nachname = lastname;
-                    invoice.Rechnungsadresse = billingadress;
 
 
                     InvoiceList list = new InvoiceList();
