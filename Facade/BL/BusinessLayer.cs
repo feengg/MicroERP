@@ -93,6 +93,12 @@ namespace Interface
             return dal.searchInvoiceDateFromTo(DateFrom, DateTo);
         }
         #endregion
+        #region AmountFromTo
+        public InvoiceList searchAmountFromTo(int AmountFrom, int AmountTo)
+        {
+            return dal.searchAmountFromTo(AmountFrom, AmountTo);
+        }
+        #endregion
         #endregion
 
         #region searchIDInvoice

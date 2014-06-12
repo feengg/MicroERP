@@ -408,6 +408,10 @@ namespace Interface
                     {
                         int.TryParse(AmountFrom1, out AmountFrom);
                         int.TryParse(AmountTo1, out AmountTo);
+                        var result = bl.searchAmountFromTo(AmountFrom, AmountTo);
+                        string msg = ToXmlString(result);
+                        Console.WriteLine(msg);
+                        sendResponse(msg);
                     }
 
                     splitUrl.TryGetValue("SearchContact", out searchContact);

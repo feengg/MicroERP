@@ -986,7 +986,70 @@ namespace Interface
             }
             catch (Exception)
             {
-                throw new Exception("Search Invoice by Contact failed");
+                throw new Exception("Search Invoice by Date failed");
+            }
+        }
+        #endregion
+
+        #region AmountFromTo
+        public InvoiceList searchAmountFromTo(int AmountFrom, int AmountTo)
+        {
+
+            try
+            {
+                InvoiceList list = new InvoiceList();
+
+                using (SqlConnection db = new SqlConnection(strCon))
+                {
+                    db.Open();
+
+                    string query = "SELECT ID_Rechnungen, Datum, Faelligkeit, Rechnungsnummer, Rechnungsadresse, Vorname, Nachname, Kommentar, Nachricht, Artikelname1, Menge1, Ust1, Preis1, Artikelname2, Menge2, Ust2, Preis2, Artikelname3, Menge3, Ust3, Preis3 FROM Rechnungen inner join Person on FK_Person = ID_Person inner join Kontakte on FK_Kontakte = ID_Kontakte inner join Rechnungszeile on FK_Rechnungen = ID_Rechnungen WHERE [Preis1] >= @AmountFrom and [Preis1] <= @AmountTo and [Preis2] >= @AmountFrom and [Preis2] <= @AmountTo and [Preis3] >= @AmountFrom and [Preis3] <= @AmountTo";
+
+                    SqlCommand cmdSelect = new SqlCommand(query, db);
+                    cmdSelect.Parameters.AddWithValue("@AmountFrom", AmountFrom);
+                    cmdSelect.Parameters.AddWithValue("@AmountTo", AmountTo);
+
+                    using (SqlDataReader rd = cmdSelect.ExecuteReader())
+                    {
+                        while (rd.Read())
+                        {
+                            Invoice invoice = new Invoice();
+                            invoice.ID = rd.GetInt32(0);
+                            invoice.Datum = rd.GetDateTime(1);
+                            invoice.Faelligkeit = rd.GetDateTime(2);
+                            invoice.Nummer = rd.GetInt32(3);
+                            invoice.Rechnungsadresse = rd.GetString(4);
+                            invoice.Vorname = rd.GetString(5);
+                            invoice.Nachname = rd.GetString(6);
+                            invoice.Kommentar = rd.GetString(7);
+                            invoice.Nachricht = rd.GetString(8);
+                            invoice.Artikel1 = rd.GetString(9);
+                            invoice.Menge1 = rd.GetInt32(10);
+                            invoice.Ust1 = rd.GetInt32(11);
+                            invoice.Stueckpreis1 = rd.GetInt32(12);
+                            invoice.Artikel2 = rd.GetString(13);
+                            invoice.Menge2 = rd.GetInt32(14);
+                            invoice.Ust2 = rd.GetInt32(15);
+                            invoice.Stueckpreis2 = rd.GetInt32(16);
+                            invoice.Artikel3 = "";
+
+                            list.invoice.Add(invoice);
+                        }
+
+                        rd.Close();
+                    }
+
+                    db.Close();
+
+                    return list;
+
+                }
+
+
+            }
+            catch (Exception)
+            {
+                throw new Exception("Search Invoice by Amount failed");
             }
         }
         #endregion
