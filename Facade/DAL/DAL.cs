@@ -16,8 +16,8 @@ namespace Interface
     {
         //Datenbankverbindung
         //private string strCon = @"Data Source=(local);" + "Initial Catalog=MicroERP;Integrated Security=true;";
-        //private string strCon = @"Data Source=.\sqlexpress;" + "Initial Catalog=MicroERP;Integrated Security=true;";
-        private string strCon = global::Facade.Properties.Settings.Default.ConnectionString;
+        private string strCon = @"Data Source=.\sqlexpress;" + "Initial Catalog=MicroERP;Integrated Security=true;";
+        //private string strCon = global::Facade.Properties.Settings.Default.ConnectionString;
 
         #region Variablen
 
@@ -812,6 +812,8 @@ namespace Interface
         #endregion
 
         #region searchInvoice
+
+        #region ByName
         public InvoiceList searchInvoiceByName(string searchKontakt)
         {
 
@@ -897,6 +899,97 @@ namespace Interface
                 throw new Exception("Search Invoice by Contact failed");
             }
         }
+        #endregion
+
+        #region DateFromTo
+        public InvoiceList searchInvoiceDateFromTo(DateTime DateFrom, DateTime DateTo)
+        {
+
+            try
+            {
+                InvoiceList list = new InvoiceList();
+
+                using (SqlConnection db = new SqlConnection(strCon))
+                {
+                    db.Open();
+
+                    string query = "SELECT ID_Rechnungen, Datum, Faelligkeit, Rechnungsnummer, Rechnungsadresse, Vorname, Nachname, Kommentar, Nachricht FROM Rechnungen inner join Person on FK_Person = ID_Person inner join Kontakte on FK_Kontakte = ID_Kontakte WHERE [Datum] >= @DateFrom and [Datum] <= @DateTo";
+
+                    SqlCommand cmdSelect = new SqlCommand(query, db);
+                    cmdSelect.Parameters.AddWithValue("@DateFrom", DateFrom);
+                    cmdSelect.Parameters.AddWithValue("@DateTo", DateTo);
+
+
+                    using (SqlDataReader rd = cmdSelect.ExecuteReader())
+                    {
+                        while (rd.Read())
+                        {
+                            ID = rd.GetInt32(0);
+                            Datum = rd.GetDateTime(1);
+                            paymentDate = rd.GetDateTime(2);
+                            number = rd.GetInt32(3);
+                            billingadress = rd.GetString(4);
+                            firstname = rd.GetString(5);
+                            lastname = rd.GetString(6);
+                            comment = rd.GetString(7);
+                            message = rd.GetString(8);
+                        }
+
+                        rd.Close();
+                    }
+
+                    string query2 = "SELECT Artikelname1, Menge1, Ust1, Preis1, Artikelname2, Menge2, Ust2, Preis2, Artikelname3, Menge3, Ust3, Preis3 FROM Rechnungszeile WHERE [FK_Rechnungen] = @id";
+                    SqlCommand cmdSelect1 = new SqlCommand(query2, db);
+                    cmdSelect1.Parameters.AddWithValue("@id", ID);
+
+                    using (SqlDataReader rd = cmdSelect1.ExecuteReader())
+                    {
+                        while (rd.Read())
+                        {
+                            Invoice invoice = new Invoice();
+                            invoice.ID = ID;
+                            invoice.Datum = Datum;
+                            invoice.Faelligkeit = paymentDate;
+                            invoice.Nummer = number;
+                            invoice.Rechnungsadresse = billingadress;
+                            invoice.Vorname = firstname;
+                            invoice.Nachname = lastname;
+                            invoice.Kommentar = comment;
+                            invoice.Nachricht = message;
+                            invoice.Artikel1 = rd.GetString(0);
+                            invoice.Menge1 = rd.GetInt32(1);
+                            invoice.Ust1 = rd.GetInt32(2);
+                            invoice.Stueckpreis1 = rd.GetInt32(3);
+                            invoice.Artikel2 = rd.GetString(4);
+                            invoice.Menge2 = rd.GetInt32(5);
+                            invoice.Ust2 = rd.GetInt32(6);
+                            invoice.Stueckpreis2 = rd.GetInt32(6);
+                            invoice.Artikel3 = "";
+                            //if (rd.IsDBNull(7)) invoice.Artikel3 = "";
+                            //invoice.Artikel3 = rd.GetString(7);
+                            //invoice.Menge3 = rd.GetInt32(8);
+                            //invoice.Ust3 = rd.GetInt32(9);
+                            //invoice.Stueckpreis3 = rd.GetInt32(10);
+
+                            list.invoice.Add(invoice);
+                        }
+                        rd.Close();
+                    }
+
+                    db.Close();
+
+                    return list;
+
+                }
+
+
+            }
+            catch (Exception)
+            {
+                throw new Exception("Search Invoice by Contact failed");
+            }
+        }
+        #endregion
 
         #region SaveID
         public void SaveIDKontakt(string searchKontakt)
@@ -927,6 +1020,7 @@ namespace Interface
             }
         }
         #endregion
+
         #endregion
 
         #region Update Invoice

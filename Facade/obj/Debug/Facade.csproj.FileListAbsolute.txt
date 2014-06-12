@@ -18,3 +18,13 @@ D:\FH\4.Semester\Software Engineering\WebServer_ContactXML\Facade\bin\Debug\WebL
 D:\FH\4.Semester\Software Engineering\WebServer_ContactXML\Facade\obj\Debug\Facade.dll
 D:\FH\4.Semester\Software Engineering\WebServer_ContactXML\Facade\obj\Debug\Facade.pdb
 D:\FH\4.Semester\Software Engineering\WebServer_ContactXML\Facade\obj\Debug\Facade.csprojResolveAssemblyReference.cache
+D:\FH\4.Semester\Software Engineering\MicroERP\Facade\bin\Debug\Facade.dll.config
+D:\FH\4.Semester\Software Engineering\MicroERP\Facade\bin\Debug\Facade.dll
+D:\FH\4.Semester\Software Engineering\MicroERP\Facade\bin\Debug\Facade.pdb
+D:\FH\4.Semester\Software Engineering\MicroERP\Facade\bin\Debug\Interface.dll
+D:\FH\4.Semester\Software Engineering\MicroERP\Facade\bin\Debug\WebLibrary.dll
+D:\FH\4.Semester\Software Engineering\MicroERP\Facade\bin\Debug\Interface.pdb
+D:\FH\4.Semester\Software Engineering\MicroERP\Facade\bin\Debug\WebLibrary.pdb
+D:\FH\4.Semester\Software Engineering\MicroERP\Facade\obj\Debug\Facade.csprojResolveAssemblyReference.cache
+D:\FH\4.Semester\Software Engineering\MicroERP\Facade\obj\Debug\Facade.dll
+D:\FH\4.Semester\Software Engineering\MicroERP\Facade\obj\Debug\Facade.pdb

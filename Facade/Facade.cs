@@ -385,33 +385,28 @@ namespace Interface
 
                     string DateFrom1;
                     splitUrl.TryGetValue("DateFrom", out DateFrom1);
-
-                    if(DateFrom1 != "" )
-                    {
-                        DateFrom = DateTime.Parse(DateFrom1, System.Globalization.CultureInfo.InvariantCulture);
-                    }
-                    
                     string DateTo1;
                     splitUrl.TryGetValue("DateTo", out DateTo1);
-                    
-                    if(DateTo1 != "")
+
+                    if (DateFrom1 != "" && DateTo1 != "")
                     {
+                        DateFrom = DateTime.Parse(DateFrom1, System.Globalization.CultureInfo.InvariantCulture);
                         DateTo = DateTime.Parse(DateTo1, System.Globalization.CultureInfo.InvariantCulture);
+                        var result = bl.searchInvoiceDateFromTo(DateFrom, DateTo);
+                        string msg = ToXmlString(result);
+                        Console.WriteLine(msg);
+                        sendResponse(msg);
                     }
+                    
 
                     string AmountFrom1;
                     splitUrl.TryGetValue("AmountFrom", out AmountFrom1);
-
-                    if (AmountFrom1 != "")
-                    {
-                        int.TryParse(AmountFrom1, out AmountFrom);
-                    }
-                   
                     string AmountTo1;
                     splitUrl.TryGetValue("AmountTo", out AmountTo1);
 
-                    if (AmountTo1 != "")
+                    if (AmountFrom1 != "" && AmountTo1 != "")
                     {
+                        int.TryParse(AmountFrom1, out AmountFrom);
                         int.TryParse(AmountTo1, out AmountTo);
                     }
 

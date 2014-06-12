@@ -81,10 +81,18 @@ namespace Interface
         #endregion
 
         #region SearchInvoice
+        #region byName
         public InvoiceList searchInvoiceByName(string contactSearch)
         {
             return dal.searchInvoiceByName(contactSearch);
         }
+        #endregion
+        #region DateFromTo
+        public InvoiceList searchInvoiceDateFromTo(DateTime DateFrom, DateTime DateTo)
+        {
+            return dal.searchInvoiceDateFromTo(DateFrom, DateTo);
+        }
+        #endregion
         #endregion
 
         #region searchIDInvoice
