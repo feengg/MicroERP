@@ -16,12 +16,13 @@ namespace Interface
     {
         //Datenbankverbindung
         //private string strCon = @"Data Source=(local);" + "Initial Catalog=MicroERP;Integrated Security=true;";
-        private string strCon = @"Data Source=.\sqlexpress;" + "Initial Catalog=MicroERP;Integrated Security=true;";
-        //private string strCon = global::Facade.Properties.Settings.Default.ConnectionString;
+        //private string strCon = @"Data Source=.\sqlexpress;" + "Initial Catalog=MicroERP;Integrated Security=true;";
+        private string strCon = global::Facade.Properties.Settings.Default.ConnectionString;
 
         #region Variablen
 
         int id;
+        int FirmId;
         //Firma
         string firmname;
         string UID;
@@ -68,6 +69,7 @@ namespace Interface
             foreach (var obj in list.contact)
             {
 
+                FirmId = obj.FirmID;
                 title = obj.Titel;
                 firstname = obj.Vorname;
                 lastname = obj.Nachname;
@@ -92,7 +94,14 @@ namespace Interface
                     cmdInsert1.ExecuteNonQuery();
 
                     db.Close();
-                    Person(adress, title, firstname, lastname, suffix, birthday);
+                    if (FirmId != 0)
+                    {
+                        PersonFirma(FirmId, adress, title, firstname, lastname, suffix, birthday);
+                    }
+                    else
+                    {
+                        Person(adress, title, firstname, lastname, suffix, birthday);
+                    }
 
                 }
 
@@ -102,6 +111,38 @@ namespace Interface
                 throw new Exception("Inserting Contact failed.");
             }
         }
+        #region PersonFirma
+        public void PersonFirma(int FirmId, string adress, string title, string firstname, string lastname, string suffix, DateTime birthday)
+        {
+            try
+            {
+                using (SqlConnection db = new SqlConnection(strCon))
+                {
+                    db.Open();
+                    string query2 = "INSERT INTO Person(FK_Kontakte, FK_Firma, Titel, Vorname, Nachname, Suffix, Geburtsdatum) VALUES ((SELECT ID_Kontakte FROM Kontakte WHERE Adresse = @adress), @firmid, @title, @firstname, @lastname, @suffix, @birthday)";
+                    SqlCommand cmdInsert2 = new SqlCommand(query2, db);
+                    cmdInsert2.Parameters.AddWithValue("@firmid", FirmId);
+                    cmdInsert2.Parameters.AddWithValue("@adress", adress);
+                    cmdInsert2.Parameters.AddWithValue("@title", title);
+                    cmdInsert2.Parameters.AddWithValue("@firstname", firstname);
+                    cmdInsert2.Parameters.AddWithValue("@lastname", lastname);
+                    cmdInsert2.Parameters.AddWithValue("@suffix", suffix);
+                    cmdInsert2.Parameters.AddWithValue("@birthday", birthday);
+
+                    cmdInsert2.ExecuteNonQuery();
+
+                    db.Close();
+                }
+
+            }
+            catch (Exception)
+            {
+                throw new Exception("Updating Contact failed.");
+            }
+        }
+        #endregion
+
+        #region Person
         public void Person(string adress, string title, string firstname, string lastname, string suffix, DateTime birthday)
         {
             try
@@ -129,6 +170,7 @@ namespace Interface
                 throw new Exception("Updating Contact failed.");
             }
         }
+        #endregion
         #endregion
 
         #region searchContact
@@ -979,6 +1021,7 @@ namespace Interface
 
         }
         #endregion 
+
         #endregion
 
     }

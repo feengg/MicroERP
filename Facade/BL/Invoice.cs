@@ -22,7 +22,7 @@ namespace Interface
 
     public class Invoice
     {
-        [XmlElement("ID")]
+        [XmlElement("Id")]
         public int ID { get; set; }
 
         [XmlElement("Date")]

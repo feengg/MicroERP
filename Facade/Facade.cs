@@ -29,6 +29,7 @@ namespace Interface
         string firstname;
         string lastname;
         string suffix;
+        int firmId;
         //DateTime birthday;
         string adress;
         string billingadress;
@@ -95,6 +96,12 @@ namespace Interface
                     string birthday1;
                     splitUrl.TryGetValue("birthday", out birthday1);
 
+                    
+
+                    string firmids;
+                    splitUrl.TryGetValue("FirmName", out firmids);
+                    int.TryParse(firmids, out firmId);
+
                     DateTime birthday = new DateTime();
                     birthday = DateTime.Parse(birthday1, System.Globalization.CultureInfo.InvariantCulture);
 
@@ -103,7 +110,7 @@ namespace Interface
                     splitUrl.TryGetValue("billingaddress", out deliveryadress);
 
                     Contact instance = new Contact();
-                    instance.ID = id;
+                    instance.FirmID = firmId;
                     instance.Titel = title;
                     instance.Vorname = firstname;
                     instance.Nachname = lastname;

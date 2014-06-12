@@ -22,8 +22,12 @@ namespace Interface
     {
 
         [XmlElement("ID")] 
-        public int ID { get; set; } 
+        public int ID { get; set; }
+
+        public int FirmID { get; set; }
+
         [XmlElement("Titel")] 
+
         public string Titel { get; set; } 
         [XmlElement("Firstname")] 
         public string Vorname { get; set; } 
